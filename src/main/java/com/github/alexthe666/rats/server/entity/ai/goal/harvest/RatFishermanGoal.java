@@ -140,10 +140,14 @@ public class RatFishermanGoal extends BaseRatHarvestGoal {
 				.withLuck(luck + hook.luck)
 				.create(LootContextParamSets.FISHING);
 		List<ItemStack> result = this.rat.level().getServer().getLootData().getLootTable(BuiltInLootTables.FISHING).getRandomItems(params);
-		ItemFishedEvent event = new ItemFishedEvent(result, 1, hook);
-		MinecraftForge.EVENT_BUS.post(event);
-		if (!event.isCanceled()) {
-			this.holdItemHarvestedIfPossible(this.rat, result);
+		if (!result.isEmpty()) {
+			ItemFishedEvent event = new ItemFishedEvent(result, 1, hook);
+			MinecraftForge.EVENT_BUS.post(event);
+			if (!event.isCanceled()) {
+				this.holdItemHarvestedIfPossible(this.rat, result);
+			}
+		} else {
+			this.rat.level().broadcastEntityEvent(this.rat, (byte) 6);
 		}
 	}
 }
