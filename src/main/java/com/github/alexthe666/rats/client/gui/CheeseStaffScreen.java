@@ -47,8 +47,8 @@ public class CheeseStaffScreen extends Screen {
 			Minecraft.getInstance().setScreen(null);
 			this.init();
 		}).bounds(i - maxLength / 2, j + 60, maxLength, 20).build());
-		this.addRenderableWidget(Button.builder(Component.translatable(RatsLangConstants.RAT_STAFF_PICKUP_POS, this.getPosName()), button -> {
-			RatsNetworkHandler.CHANNEL.sendToServer(new SyncRatStaffPacket(this.rat.getId(), this.pos, Direction.UP, 1));
+		this.addRenderableWidget(Button.builder(Component.translatable(RatsLangConstants.RAT_STAFF_PICKUP_POS, this.getPosName(), Component.translatable("rats.direction." + this.clickedFace.getName())), button -> {
+			RatsNetworkHandler.CHANNEL.sendToServer(new SyncRatStaffPacket(this.rat.getId(), this.pos, this.clickedFace, 1));
 			Minecraft.getInstance().setScreen(null);
 			this.init();
 		}).bounds(i - maxLength / 2, j + 85, maxLength, 20).build());

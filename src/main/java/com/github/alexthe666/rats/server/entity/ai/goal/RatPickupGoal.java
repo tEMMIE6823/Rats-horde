@@ -65,7 +65,7 @@ public class RatPickupGoal extends Goal implements RatWorkGoal {
 	}
 
 	private boolean canPickUp() {
-		return this.rat.getCommand() == RatCommand.TRANSPORT || this.rat.getCommand() == RatCommand.HARVEST && (RatUpgradeUtils.hasUpgrade(this.rat, RatsItemRegistry.RAT_UPGRADE_FARMER.get()) || RatUpgradeUtils.hasUpgrade(this.rat, RatsItemRegistry.RAT_UPGRADE_PLACER.get()) || RatUpgradeUtils.hasUpgrade(this.rat, RatsItemRegistry.RAT_UPGRADE_BREEDER.get()));
+		return this.rat.getCommand() == RatCommand.TRANSPORT || (this.rat.getCommand() == RatCommand.HARVEST && (RatUpgradeUtils.hasUpgrade(this.rat, RatsItemRegistry.RAT_UPGRADE_FARMER.get()) || RatUpgradeUtils.hasUpgrade(this.rat, RatsItemRegistry.RAT_UPGRADE_PLACER.get()) || RatUpgradeUtils.hasUpgrade(this.rat, RatsItemRegistry.RAT_UPGRADE_BREEDER.get())));
 	}
 
 	private void resetTarget() {
@@ -121,7 +121,7 @@ public class RatPickupGoal extends Goal implements RatWorkGoal {
 
 	private void executeTask(BlockEntity entity) {
 		if (this.type == PickupType.INVENTORY) {
-			LazyOptional<IItemHandler> handler = entity.getCapability(ForgeCapabilities.ITEM_HANDLER, Direction.DOWN);
+			LazyOptional<IItemHandler> handler = entity.getCapability(ForgeCapabilities.ITEM_HANDLER, this.rat.pickupFacing);
 			if (handler.resolve().isPresent()) {
 				int slot = RatUtils.getItemSlotFromItemHandler(this.rat, handler.resolve().get(), this.rat.level().getRandom());
 				int extractSize = RatUpgradeUtils.hasUpgrade(this.rat, RatsItemRegistry.RAT_UPGRADE_PLATTER.get()) ? 64 : 1;
@@ -142,7 +142,7 @@ public class RatPickupGoal extends Goal implements RatWorkGoal {
 				}
 			}
 		} else if (this.type == PickupType.ENERGY) {
-			LazyOptional<IEnergyStorage> handler = entity.getCapability(ForgeCapabilities.ENERGY, Direction.DOWN);
+			LazyOptional<IEnergyStorage> handler = entity.getCapability(ForgeCapabilities.ENERGY, this.rat.pickupFacing);
 			if (handler.resolve().isPresent()) {
 				IEnergyStorage storage = handler.resolve().get();
 				int howMuchWeWant = this.rat.getRFTransferRate() - this.rat.getHeldRF();
@@ -160,7 +160,7 @@ public class RatPickupGoal extends Goal implements RatWorkGoal {
 				}
 			}
 		} else if (this.type == PickupType.FLUID) {
-			LazyOptional<IFluidHandler> handler = entity.getCapability(ForgeCapabilities.FLUID_HANDLER, Direction.DOWN);
+			LazyOptional<IFluidHandler> handler = entity.getCapability(ForgeCapabilities.FLUID_HANDLER, this.rat.pickupFacing);
 			if (handler.resolve().isPresent()) {
 				IFluidHandler fluidHandler = handler.resolve().get();
 				int currentAmount = 0;
@@ -181,7 +181,7 @@ public class RatPickupGoal extends Goal implements RatWorkGoal {
 								}
 							}
 						}
-						if (firstTank.isEmpty() && (this.rat.transportingFluid.isEmpty() || this.rat.transportingFluid.isFluidEqual(firstTank))) {
+						if (!firstTank.isEmpty() && (this.rat.transportingFluid.isEmpty() || this.rat.transportingFluid.isFluidEqual(firstTank))) {
 							howMuchWeWant = Math.min(firstTank.getAmount(), howMuchWeWant);
 
 							fluidHandler.drain(howMuchWeWant, IFluidHandler.FluidAction.SIMULATE);

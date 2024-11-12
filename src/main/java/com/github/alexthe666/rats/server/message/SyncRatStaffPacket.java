@@ -46,16 +46,18 @@ public record SyncRatStaffPacket(int entityId, long pos, int facing, int control
 								rat.setDepositPos(GlobalPos.of(player.level().dimension(), BlockPos.of(packet.pos())));
 								rat.depositFacing = Direction.values()[packet.facing()];
 							}
-							case 1 ->//pickup
-									rat.setPickupPos(GlobalPos.of(player.level().dimension(), BlockPos.of(packet.pos())));
+							case 1 -> {//pickup
+								rat.setPickupPos(GlobalPos.of(player.level().dimension(), BlockPos.of(packet.pos())));
+								rat.pickupFacing = Direction.values()[packet.facing()];
+							}
 							case 2 ->//set homepoint
-									rat.setHomePoint(GlobalPos.of(player.level().dimension(), BlockPos.of(packet.pos())));
+								rat.setHomePoint(GlobalPos.of(player.level().dimension(), BlockPos.of(packet.pos())));
 							case 3 ->//detach homepoint
-									rat.setHomePoint(null);
+								rat.setHomePoint(null);
 							case 4 ->//set radius home point
-									rat.setRadiusCenter(GlobalPos.of(player.level().dimension(), BlockPos.of(packet.pos())));
+								rat.setRadiusCenter(GlobalPos.of(player.level().dimension(), BlockPos.of(packet.pos())));
 							case 5 ->//set radius scale
-									rat.setRadius(packet.extraData());
+								rat.setRadius(packet.extraData());
 							case 6 -> {//reset radius
 								rat.setRadiusCenter(null);
 								rat.setRadius(RatConfig.defaultRatRadius);

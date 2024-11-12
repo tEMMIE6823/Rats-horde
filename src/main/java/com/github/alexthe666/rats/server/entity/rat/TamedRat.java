@@ -124,6 +124,7 @@ public class TamedRat extends InventoryRat {
 	private static final EntityDataAccessor<Boolean> FLYING = SynchedEntityData.defineId(TamedRat.class, EntityDataSerializers.BOOLEAN);
 
 	public Direction depositFacing = Direction.UP;
+	public Direction pickupFacing = Direction.UP;
 	public boolean crafting = false;
 	public boolean climbingTube = false;
 	public int cookingProgress = 0;
@@ -436,6 +437,9 @@ public class TamedRat extends InventoryRat {
 		}
 		if (tag.contains("DepositFacing")) {
 			this.depositFacing = Direction.values()[tag.getInt("DepositFacing")];
+		}
+		if (tag.contains("PickupFacing")) {
+			this.pickupFacing = Direction.values()[tag.getInt("PickupFacing")];
 		}
 		if (tag.contains("TransportingFluid")) {
 			CompoundTag fluidTag = tag.getCompound("TransportingFluid");

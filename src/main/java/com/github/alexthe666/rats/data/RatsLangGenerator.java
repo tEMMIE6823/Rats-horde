@@ -389,7 +389,7 @@ public class RatsLangGenerator extends LanguageProvider {
 		this.add(RatsLangConstants.RAT_STAFF_BIND, "Staff is now bound to %s");
 		this.add(RatsLangConstants.RAT_STAFF_NO_RAT, "Staff is not bound to any rat");
 		this.add(RatsLangConstants.RAT_STAFF_DEPOSIT_POS, "Deposit items in %s from the %s");
-		this.add(RatsLangConstants.RAT_STAFF_PICKUP_POS, "Take items from %s");
+		this.add(RatsLangConstants.RAT_STAFF_PICKUP_POS, "Take items from %s from the %s");
 		this.add(RatsLangConstants.RAT_STAFF_SET_HOME, "Set home point for rat to %s");
 		this.add(RatsLangConstants.RAT_STAFF_REMOVE_TRANSPORT_POS, "Reset rat transport positions");
 		this.add(RatsLangConstants.RAT_STAFF_REMOVE_HOME, "Reset rat home point");
@@ -415,7 +415,7 @@ public class RatsLangGenerator extends LanguageProvider {
 		this.add("entity.rats.rat.command.gather.desc", "The rat will search the area for dropped items (craft whitelist or blacklist upgrades to limit what they pick up). You can use a §6Cheese Staff§r to set a deposit inventory.");
 		this.add("entity.rats.rat.command.harvest", "Harvest");
 		this.add("entity.rats.rat.command.harvest.desc", "The rat will search for mature crops nearby to harvest. You can use a §6Cheese Staff§r to set a deposit inventory where it will drop off any crops it collects. Many upgrades will repurpose this command to allow rats to perform various jobs, such as chopping down trees or breeding animals.");
-		this.add("entity.rats.rat.command.transport", "Transport Items");
+		this.add("entity.rats.rat.command.transport", "Transport");
 		this.add("entity.rats.rat.command.transport.desc", "Interacting with a rat with a §6Cheese Staff§r will bind it to the rat. Clicking on a block with an inventory will open a GUI to mark that inventory for the rat to take from/deposit items into. Once the rat has a marked deposit inventory and pickup inventory, it will transport items from one to the other.");
 		this.add("entity.rats.rat.command.patrol", "Patrol");
 		this.add("entity.rats.rat.command.patrol.desc", "The rat will patrol a set path and fight any monsters it encounters. Right-click the rat with a §6Patrol Staff§r to bind it and right-click any blocks with the staff to add points to patrol along.");
