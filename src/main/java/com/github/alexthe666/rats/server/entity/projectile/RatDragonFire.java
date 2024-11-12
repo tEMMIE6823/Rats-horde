@@ -95,4 +95,9 @@ public class RatDragonFire extends Fireball {
 	public boolean hurt(DamageSource source, float amount) {
 		return false;
 	}
+
+	@Override
+	public boolean isPickable() {
+		return false;
+	}
 }
