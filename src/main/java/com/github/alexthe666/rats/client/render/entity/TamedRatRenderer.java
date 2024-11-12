@@ -1,6 +1,7 @@
 package com.github.alexthe666.rats.client.render.entity;
 
 import com.github.alexthe666.rats.RatsMod;
+import com.github.alexthe666.rats.client.events.ForgeClientEvents;
 import com.github.alexthe666.rats.client.events.ModClientEvents;
 import com.github.alexthe666.rats.client.model.entity.AbstractRatModel;
 import com.github.alexthe666.rats.client.model.entity.PinkieModel;
@@ -12,9 +13,14 @@ import com.github.alexthe666.rats.server.items.upgrades.interfaces.ChangesTextur
 import com.github.alexthe666.rats.server.misc.RatUpgradeUtils;
 import com.google.common.collect.ImmutableMap;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.client.ForgeHooksClient;
+import org.joml.Matrix4f;
 
 import java.util.Locale;
 import java.util.Objects;
@@ -61,6 +67,37 @@ public class TamedRatRenderer extends AbstractRatRenderer<TamedRat, AbstractRatM
 			this.model = RAT_MODEL;
 		}
 		super.render(entity, entityYaw, partialTicks, stack, buffer, light);
+//		if (ForgeClientEvents.isRatSelectedOnStaff(entity)) {
+//			this.renderAdditionalInfo(entity, stack, buffer, light);
+//		}
+	}
+
+	protected void renderAdditionalInfo(TamedRat entity, PoseStack stack, MultiBufferSource source, int light) {
+		double d0 = this.entityRenderDispatcher.distanceToSqr(entity);
+		if (ForgeHooksClient.isNameplateInRenderDistance(entity, d0)) {
+			boolean flag = !entity.isDiscrete();
+			float f = entity.getNameTagOffsetY();
+			stack.pushPose();
+			stack.translate(0.0F, f, 0.0F);
+			stack.mulPose(this.entityRenderDispatcher.cameraOrientation());
+			stack.scale(-0.025F, -0.025F, 0.025F);
+			Matrix4f matrix4f = stack.last().pose();
+			float f1 = Minecraft.getInstance().options.getBackgroundOpacity(0.25F);
+			int j = (int)(f1 * 255.0F) << 24;
+			Font font = this.getFont();
+
+			Component rf = Component.literal("RF: " + entity.getHeldRF());
+			float f2 = (float)(-font.width(rf) / 2);
+			font.drawInBatch(rf, f2, -20, 553648127, false, matrix4f, source, Font.DisplayMode.NORMAL, j, light);
+			Component fluid = Component.literal("Fluid: " + entity.transportingFluid.getAmount());
+			f2 = (float)(-font.width(rf) / 2);
+			font.drawInBatch(fluid, f2, -10, 553648127, false, matrix4f, source, Font.DisplayMode.NORMAL, j, light);
+			Component pickupSides = Component.literal("Deposit: " + entity.depositFacing.getName() + ", Pickup: " + entity.pickupFacing.getName());
+			f2 = (float)(-font.width(rf) / 2);
+			font.drawInBatch(pickupSides, f2, 0, 553648127, false, matrix4f, source, Font.DisplayMode.NORMAL, j, light);
+
+			stack.popPose();
+		}
 	}
 
 	@Override

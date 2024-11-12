@@ -67,11 +67,11 @@ public class EnergyRatUpgradeItem extends BaseRatUpgradeItem implements ChangesO
 		if (RatConfig.ratsChargeHeldItems && rat.getHeldRF() > 0 && !rat.getMainHandItem().isEmpty()) {
 			ItemStack stack = rat.getMainHandItem();
 			LazyOptional<IEnergyStorage> optional = stack.getCapability(ForgeCapabilities.ENERGY);
-			if (optional.isPresent()) {
-				IEnergyStorage energyStorage = optional.orElseThrow(IllegalStateException::new);
+			if (optional.resolve().isPresent()) {
+				IEnergyStorage energyStorage = optional.resolve().get();
 				if (energyStorage.getEnergyStored() < energyStorage.getMaxEnergyStored()) {
 					int energyToTransfer = Math.min(rat.getHeldRF(), this.chargeRate);
-					energyToTransfer = energyToTransfer - energyStorage.receiveEnergy(energyToTransfer, false);
+					energyToTransfer = energyStorage.receiveEnergy(energyToTransfer, false);
 					rat.setHeldRF(Math.max(0, rat.getHeldRF() - energyToTransfer));
 				}
 			}
