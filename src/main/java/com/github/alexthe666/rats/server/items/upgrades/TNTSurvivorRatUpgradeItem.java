@@ -7,7 +7,7 @@ import net.minecraft.world.damagesource.DamageSource;
 
 public class TNTSurvivorRatUpgradeItem extends TNTRatUpgradeItem implements DamageImmunityUpgrade {
 	public TNTSurvivorRatUpgradeItem(Properties properties) {
-		super(properties, 2, 4);
+		super(properties, 2, 3);
 	}
 
 	@Override
