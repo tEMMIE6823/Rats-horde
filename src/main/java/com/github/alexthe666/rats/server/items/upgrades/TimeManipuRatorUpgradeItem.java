@@ -25,9 +25,9 @@ public class TimeManipuRatorUpgradeItem extends BaseRatUpgradeItem implements Ti
 	@Override
 	public void tick(TamedRat rat) {
 		if (rat.tickCount % 5 == 0) {
-			for (int x = -2; x < 2; x++) {
-				for (int z = -2; z < 2; z++) {
-					for (int y = -1; y < 1; y++) {
+			for (int x = -2; x <= 2; x++) {
+				for (int z = -2; z <= 2; z++) {
+					for (int y = -1; y <= 1; y++) {
 						BlockPos pos = rat.blockPosition().offset(x, y, z);
 						RatUtils.accelerateTick(rat.level(), pos, rat.level().getRandom().nextInt(10), rat.level().getRandom().nextInt(2));
 					}
