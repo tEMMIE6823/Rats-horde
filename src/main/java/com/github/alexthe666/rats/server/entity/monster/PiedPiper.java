@@ -155,6 +155,11 @@ public class PiedPiper extends Raider implements RatSummoner {
 		this.getEntityData().set(RAT_COUNT, count);
 	}
 
+	@Override
+	public MobType getMobType() {
+		return MobType.ILLAGER;
+	}
+
 	@Nullable
 	@Override
 	public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData spawnData, @Nullable CompoundTag dataTag) {
