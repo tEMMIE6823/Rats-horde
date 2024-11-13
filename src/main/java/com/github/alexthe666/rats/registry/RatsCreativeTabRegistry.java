@@ -365,7 +365,10 @@ public class RatsCreativeTabRegistry {
 
 	private static void registerColoredItems(CreativeModeTab.Output output, String itemType) {
 		for (DyeColor color : DyeColor.values()) {
-			output.accept(ForgeRegistries.ITEMS.getValue(new ResourceLocation(RatsMod.MODID, itemType + "_" + color.getName())));
+			var item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(RatsMod.MODID, itemType + "_" + color.getName()));
+			if (item != null && item != Items.AIR) {
+				output.accept(item);
+			}
 		}
 	}
 
