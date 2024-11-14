@@ -41,7 +41,7 @@ public class RadiusStaffScreen extends Screen {
 		int maxLength = Math.max(150, Minecraft.getInstance().font.width(topText.getString()) + 20);
 		this.addRenderableWidget(Button.builder(topText, button -> {
 			RatsNetworkHandler.CHANNEL.sendToServer(new SyncRatStaffPacket(this.rat.getId(), this.pos, Direction.UP, 4, 0));
-			this.rat.setRadiusCenter(GlobalPos.of(Minecraft.getInstance().player.level().dimension(), this.pos));
+			this.rat.setRadiusCenter(GlobalPos.of(this.rat.level().dimension(), this.pos));
 			this.sliderValue = this.rat.getRadius();
 		}).bounds(i - maxLength / 2, j + 60, maxLength, 20).build());
 		this.addRenderableWidget(new AbstractSliderButton(i - 150 / 2, j + 85, 150, 20, Component.translatable(RatsLangConstants.RAT_STAFF_RADIUS, RadiusStaffScreen.this.sliderValue), 0.0D) {
@@ -59,7 +59,7 @@ public class RadiusStaffScreen extends Screen {
 			protected void applyValue() {
 				RadiusStaffScreen.this.sliderValue = Mth.floor(Mth.clampedLerp(0, RatConfig.maxRatRadius, this.value));
 				RatsNetworkHandler.CHANNEL.sendToServer(new SyncRatStaffPacket(rat.getId(), BlockPos.ZERO, Direction.UP, 5, RadiusStaffScreen.this.sliderValue));
-				RadiusStaffScreen.this.rat.setRadius(Math.round(RadiusStaffScreen.this.sliderValue));
+				RadiusStaffScreen.this.rat.setRadius(RadiusStaffScreen.this.sliderValue);
 			}
 		});
 		this.addRenderableWidget(Button.builder(secondText, button -> {

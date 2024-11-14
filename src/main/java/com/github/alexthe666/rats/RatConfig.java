@@ -162,6 +162,7 @@ public class RatConfig {
 			ratBreedingCooldown = ConfigHolder.SERVER.ratBreedingCooldown.get();
 			ratsSpawnWithSantaHats = ConfigHolder.SERVER.ratsSpawnWithSantaHats.get();
 			ratsSpawnWithPartyHats = ConfigHolder.SERVER.ratsSpawnWithPartyHats.get();
+			maxRatRadius = ConfigHolder.SERVER.maxRatRadius.get();
 
 			ratArmorMultiplier = ConfigHolder.SERVER.ratArmorMultiplier.get();
 			ratsChargeHeldItems = ConfigHolder.SERVER.ratsChargeHeldItems.get();

@@ -35,6 +35,7 @@ public class ServerConfig {
 	public final ForgeConfigSpec.IntValue ratBreedingCooldown;
 	public final ForgeConfigSpec.BooleanValue ratsSpawnWithSantaHats;
 	public final ForgeConfigSpec.BooleanValue ratsSpawnWithPartyHats;
+	public final ForgeConfigSpec.IntValue maxRatRadius;
 
 	public final ForgeConfigSpec.IntValue ratArmorMultiplier;
 	public final ForgeConfigSpec.BooleanValue ratsChargeHeldItems;
@@ -215,6 +216,7 @@ public class ServerConfig {
 		this.carratDamagePerBite = buildDouble(builder, "Damage per Carrat Upgrade bite", 0.0D, 0.0D, Double.MAX_VALUE, "How much damage a rat should take when eaten while having the Carrat Upgrade.");
 
 		builder.pop().push("Misc Rat Adjustments");
+		this.maxRatRadius = buildInt(builder, "Max Staff Radius", 16, 1, 64, "Defines how large the radius staff can get. Do note that the bigger the radius, the larger the performance impact as rats need to search a bigger area for tasks. Going above 16 is not recommended.");
 		this.ratSackCapacity = buildInt(builder, "Rat Sack Capacity", 16, 1, 64, "Defines the amount of rats you can store in a sack at one time.");
 		this.ratCageCramming = buildInt(builder, "Rat Cage Max Occupancy", 4, 1, 10000, "Rats will continue to breed in cages until there are this many rats in one cage block");
 		this.maxRatLitterSize = buildInt(builder, "Rat Litter Size", 1, 1, 10, "The max amount of Baby Rats will be produced when Rats breed. You will get anywhere between 1 and this number of baby rats.");
