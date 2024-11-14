@@ -102,7 +102,7 @@ dependencies {
     minecraft "net.neoforged:forge:${project.minecraft_version}-${project.neo_version}"
 
     implementation fg.deobf("mezz.jei:jei-${project.minecraft_version}-forge:${project.jei_version}")
-    implementation fg.deobf("curse.maven:citadel-331936:4579078")
+    implementation fg.deobf("curse.maven:citadel-331936:5143956")
     implementation fg.deobf("curse.maven:jade-324717:4681833")
 
     runtimeOnly fg.deobf("curse.maven:spark-361579:4738952")

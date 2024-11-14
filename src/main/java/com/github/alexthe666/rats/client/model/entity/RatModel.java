@@ -197,13 +197,19 @@ public class RatModel<T extends AbstractRat> extends StaticRatModel<T> {
 		if (rat instanceof TamedRat realRat && realRat.isInWheel()) {
 			f = f2;
 			f1 = 1.0F;
-			this.progressRotationPrev(this.body1, 5.0F, (float) Math.toRadians(20.0D), 0.0F, 0.0F, 5.0F);
-			this.progressRotationPrev(this.body2, 5.0F, (float) Math.toRadians(-50.0D), 0.0F, 0.0F, 5.0F);
-			this.progressRotationPrev(this.head, 5.0F, (float) Math.toRadians(-30.0D), 0.0F, 0.0F, 5.0F);
-			this.progressRotationPrev(this.tail1, 5.0F, (float) Math.toRadians(70.0D), 0.0F, 0.0F, 5.0F);
-			this.progressRotationPrev(this.tail2, 5.0F, (float) Math.toRadians(60.0D), 0.0F, 0.0F, 5.0F);
+			this.body1.rotationPointY = 18;
+			this.progressRotationPrev(this.body1, 5.0F, (float) Math.toRadians(70.0D), 0.0F, 0.0F, 5.0F);
+			this.progressRotationPrev(this.body2, 5.0F, (float) Math.toRadians(-40.0D), 0.0F, 0.0F, 5.0F);
+			this.progressRotationPrev(this.head, 5.0F, (float) Math.toRadians(-60.0D), 0.0F, 0.0F, 5.0F);
+			this.progressRotationPrev(this.tail1, 5.0F, (float) Math.toRadians(0.0D), 0.0F, (float) Math.toRadians(-55.0D), 5.0F);
+			this.progressRotationPrev(this.tail2, 5.0F, (float) Math.toRadians(40.0D), 0.0F, (float) Math.toRadians(5.0D), 5.0F);
 			this.progressRotationPrev(this.rightEar, 5.0F, 0.0F, (float) Math.toRadians(-20.0D), 0.0F, 5.0F);
 			this.progressRotationPrev(this.leftEar, 5.0F, 0.0F, (float) Math.toRadians(20.0D), 0.0F, 5.0F);
+			this.progressRotationPrev(this.leftArm, 5.0F, (float) Math.toRadians(-90.0D), 0.0F, 0.0F, 5.0F);
+			this.progressRotationPrev(this.rightArm, 5.0F, (float) Math.toRadians(-90.0D), 0.0F, 0.0F, 5.0F);
+			this.progressRotationPrev(this.leftThigh, 5.0F, (float) Math.toRadians(-30.0D), 0.0F, 0.0F, 5.0F);
+			this.progressRotationPrev(this.rightThigh, 5.0F, (float) Math.toRadians(-30.0D), 0.0F, 0.0F, 5.0F);
+
 		}
 
 		if (rat.getAnimation() == AbstractRat.ANIMATION_EAT) {

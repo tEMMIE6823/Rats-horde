@@ -5,6 +5,7 @@ import com.github.alexthe666.rats.client.model.RatsModelLayers;
 import com.github.alexthe666.rats.client.model.deco.*;
 import com.github.alexthe666.rats.registry.RatsItemRegistry;
 import com.github.alexthe666.rats.server.block.RatCageDecoratedBlock;
+import com.github.alexthe666.rats.server.block.RatCageWheelBlock;
 import com.github.alexthe666.rats.server.block.entity.DecoratedRatCageBlockEntity;
 import com.github.alexthe666.rats.server.block.entity.RatCageBreedingLanternBlockEntity;
 import com.github.alexthe666.rats.server.block.entity.RatCageWheelBlockEntity;
@@ -45,27 +46,25 @@ public class DecoratedRatCageRenderer implements BlockEntityRenderer<DecoratedRa
 
 	@Override
 	public void render(DecoratedRatCageBlockEntity entity, float partialTicks, PoseStack stack, MultiBufferSource buffer, int light, int overlay) {
-		BlockState blockstate = entity.getBlockState();
 		stack.pushPose();
 		stack.translate(0.5D, 1.5D, 0.5D);
-		float f = blockstate.getValue(RatCageDecoratedBlock.FACING).getClockWise().toYRot() + 90;
-		stack.mulPose(Axis.YP.rotationDegrees(-f));
 		stack.mulPose(Axis.ZP.rotationDegrees(180));
+		float f = entity.getBlockState().getValue(RatCageDecoratedBlock.FACING).getOpposite().toYRot();
+		stack.mulPose(Axis.YP.rotationDegrees(f));
 		ItemStack containedItem = ItemStack.EMPTY;
 		if (entity.getLevel() != null) {
 			containedItem = entity.getContainedItem();
 		}
-		if (containedItem.getItem() instanceof RatIglooItem igloo) {
-			DyeColor color = igloo.color;
+		if (containedItem.getItem() instanceof RatIglooItem iglooItem) {
+			DyeColor color = iglooItem.color;
 			VertexConsumer consumer = buffer.getBuffer(TEXTURE_RAT_IGLOO);
 			this.igloo.renderToBuffer(stack, consumer, light, overlay, color.getTextureDiffuseColors()[0], color.getTextureDiffuseColors()[1], color.getTextureDiffuseColors()[2], 1.0F);
 		}
-		if (containedItem.getItem() instanceof RatHammockItem hammock) {
+
+		if (containedItem.getItem() instanceof RatHammockItem hammockItem) {
 			VertexConsumer consumer = buffer.getBuffer(TEXTURE_RAT_HAMMOCK);
-			stack.pushPose();
-			DyeColor color = hammock.color;
+			DyeColor color = hammockItem.color;
 			this.hammock.renderToBuffer(stack, consumer, light, overlay, color.getTextureDiffuseColors()[0], color.getTextureDiffuseColors()[1], color.getTextureDiffuseColors()[2], 1.0F);
-			stack.popPose();
 		}
 
 		if (containedItem.is(RatsItemRegistry.RAT_WATER_BOTTLE.get())) {
@@ -90,8 +89,8 @@ public class DecoratedRatCageRenderer implements BlockEntityRenderer<DecoratedRa
 		if (containedItem.is(RatsItemRegistry.RAT_BREEDING_LANTERN.get()) && entity instanceof RatCageBreedingLanternBlockEntity lantern) {
 			VertexConsumer consumer = buffer.getBuffer(TEXTURE_RAT_BREEDING_LANTERN);
 			float brightness = lantern.getBreedingCooldown() > 0 ? 0.5F : 1.0F;
-			MODEL_RAT_BREEDING_LANTERN.renderToBuffer(stack, consumer, light, overlay, brightness, brightness, brightness, 1.0F);
 			MODEL_RAT_BREEDING_LANTERN.swingChain();
+			MODEL_RAT_BREEDING_LANTERN.renderToBuffer(stack, consumer, light, overlay, brightness, brightness, brightness, 1.0F);
 		}
 		stack.popPose();
 	}

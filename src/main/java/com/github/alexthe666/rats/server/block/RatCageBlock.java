@@ -3,8 +3,6 @@ package com.github.alexthe666.rats.server.block;
 import com.github.alexthe666.rats.registry.RatsBlockRegistry;
 import com.github.alexthe666.rats.registry.RatsItemRegistry;
 import com.github.alexthe666.rats.server.block.entity.DecoratedRatCageBlockEntity;
-import com.github.alexthe666.rats.server.block.entity.RatCageBreedingLanternBlockEntity;
-import com.github.alexthe666.rats.server.block.entity.RatCageWheelBlockEntity;
 import com.github.alexthe666.rats.server.entity.rat.TamedRat;
 import com.github.alexthe666.rats.server.items.RatCageDecoration;
 import com.github.alexthe666.rats.server.misc.RatsLangConstants;
@@ -118,14 +116,14 @@ public class RatCageBlock extends Block {
 
 		for (Map.Entry<Direction, IntegerProperty> entry : PROPERTY_BY_DIRECTION.entrySet()) {
 			if (blockstate.hasProperty(entry.getValue())) {
-				blockstate = blockstate.setValue(entry.getValue(), this.runConnectionLogic(context.getLevel().getBlockState(context.getClickedPos().relative(entry.getKey()))));
+				blockstate = blockstate.setValue(entry.getValue(), runConnectionLogic(context.getLevel().getBlockState(context.getClickedPos().relative(entry.getKey()))));
 			}
 		}
 
 		return blockstate;
 	}
 
-	public int runConnectionLogic(BlockState state) {
+	public static int runConnectionLogic(BlockState state) {
 		if (state.getBlock() instanceof RatTubeBlock) {
 			return 2;
 		}
@@ -153,36 +151,15 @@ public class RatCageBlock extends Block {
 				if (player.getItemInHand(hand).is(RatsItemRegistry.RAT_BREEDING_LANTERN.get())) {
 					BlockState pre = level.getBlockState(pos);
 					BlockState decorated = RatsBlockRegistry.RAT_CAGE_BREEDING_LANTERN.get().withPropertiesOf(pre);
-					level.setBlockAndUpdate(pos, decorated.setValue(RatCageDecoratedBlock.FACING, limitedFacing));
-					RatCageBreedingLanternBlockEntity te = new RatCageBreedingLanternBlockEntity(pos, decorated);
-					ItemStack added = new ItemStack(player.getItemInHand(hand).getItem(), 1);
-					te.setContainedItem(added);
-					level.setBlockEntity(te);
-					if (!player.isCreative()) {
-						player.getItemInHand(hand).shrink(1);
-					}
+					this.setupCage(level, pos, decorated, limitedFacing, player, hand);
 				} else if (player.getItemInHand(hand).is(RatsItemRegistry.RAT_WHEEL.get())) {
 					BlockState pre = level.getBlockState(pos);
 					BlockState decorated = RatsBlockRegistry.RAT_CAGE_WHEEL.get().withPropertiesOf(pre);
-					level.setBlockAndUpdate(pos, decorated.setValue(RatCageDecoratedBlock.FACING, limitedFacing));
-					RatCageWheelBlockEntity te = new RatCageWheelBlockEntity(pos, decorated);
-					ItemStack added = new ItemStack(player.getItemInHand(hand).getItem(), 1);
-					te.setContainedItem(added);
-					level.setBlockEntity(te);
-					if (!player.isCreative()) {
-						player.getItemInHand(hand).shrink(1);
-					}
+					this.setupCage(level, pos, decorated, limitedFacing, player, hand);
 				} else {
 					BlockState pre = level.getBlockState(pos);
 					BlockState decorated = RatsBlockRegistry.RAT_CAGE_DECORATED.get().withPropertiesOf(pre);
-					level.setBlockAndUpdate(pos, decorated.setValue(RatCageDecoratedBlock.FACING, limitedFacing));
-					DecoratedRatCageBlockEntity te = new DecoratedRatCageBlockEntity(pos, decorated);
-					ItemStack added = new ItemStack(player.getItemInHand(hand).getItem(), 1);
-					te.setContainedItem(added);
-					level.setBlockEntity(te);
-					if (!player.isCreative()) {
-						player.getItemInHand(hand).shrink(1);
-					}
+					this.setupCage(level, pos, decorated, limitedFacing, player, hand);
 				}
 
 				return InteractionResult.SUCCESS;
@@ -226,15 +203,30 @@ public class RatCageBlock extends Block {
 					ratCount++;
 				}
 				player.displayClientMessage(Component.translatable(RatsLangConstants.CAGE_WITHDRAW, ratCount), true);
+				this.onRatsRemoved(state, level, pos, player);
 			}
 			return InteractionResult.SUCCESS;
 		}
 		return InteractionResult.PASS;
 	}
 
+	private void setupCage(Level level, BlockPos pos, BlockState state, Direction dir, Player player, InteractionHand hand) {
+		level.setBlockAndUpdate(pos, state.setValue(RatCageDecoratedBlock.FACING, dir));
+		if (level.getBlockEntity(pos) instanceof DecoratedRatCageBlockEntity cage) {
+			cage.setContainedItem(player.getItemInHand(hand).copyWithCount(1));
+		}
+		if (!player.isCreative()) {
+			player.getItemInHand(hand).shrink(1);
+		}
+	}
+
 	@Override
 	public RenderShape getRenderShape(BlockState state) {
 		return RenderShape.MODEL;
+	}
+
+	public void onRatsRemoved(BlockState state, Level level, BlockPos pos, Player player) {
+
 	}
 
 	public ItemStack getContainedItem(Level level, BlockPos pos) {
@@ -246,7 +238,7 @@ public class RatCageBlock extends Block {
 	}
 
 	public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor accessor, BlockPos currentPos, BlockPos facingPos) {
-		state = state.setValue(PROPERTY_BY_DIRECTION.get(facing), this.runConnectionLogic(facingState));
+		state = state.setValue(PROPERTY_BY_DIRECTION.get(facing), runConnectionLogic(facingState));
 		if (accessor.getBlockEntity(currentPos) instanceof DecoratedRatCageBlockEntity decorated && !decorated.getContainedItem().isEmpty()) {
 			if (decorated.getContainedItem().getItem() instanceof RatCageDecoration decoration && state.getValue(PROPERTY_BY_DIRECTION.get(decoration.getSupportedFace(state.getValue(RatCageDecoratedBlock.FACING)))) != 0) {
 				BlockState pre = state;

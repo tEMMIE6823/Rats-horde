@@ -3,6 +3,7 @@ package com.github.alexthe666.rats.server.block;
 import com.github.alexthe666.rats.registry.RatsBlockRegistry;
 import com.github.alexthe666.rats.server.block.entity.DecoratedRatCageBlockEntity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -28,6 +29,7 @@ public class RatCageDecoratedBlock extends RatCageBlock implements EntityBlock {
 
 	public RatCageDecoratedBlock(BlockBehaviour.Properties properties) {
 		super(properties);
+		this.registerDefaultState(this.getStateDefinition().any().setValue(FACING, Direction.NORTH));
 	}
 
 	@Override

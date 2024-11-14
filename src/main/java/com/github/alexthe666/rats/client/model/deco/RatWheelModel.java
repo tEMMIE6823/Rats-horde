@@ -41,8 +41,8 @@ public class RatWheelModel<T extends Entity> extends AdvancedEntityModel<T> {
 
 	public void animate(RatCageWheelBlockEntity wheel, float partialTicks) {
 		this.resetToDefaultPose();
-		float rot = wheel.prevWheelRot + (wheel.wheelRot - wheel.prevWheelRot) * partialTicks;
-		this.axle.rotateAngleX = (float) Math.toRadians(rot);
+		float rot = wheel.useTicks == 0 ? 0 : wheel.useTicks + partialTicks;
+		this.axle.rotateAngleX = (float) Math.toRadians(rot) * (wheel.rotationSpeed * 20.0F);
 		this.wheel1.setScale(0.9F, 0.9F, 0.9F);
 		this.wheel1.setShouldScaleChildren(true);
 	}

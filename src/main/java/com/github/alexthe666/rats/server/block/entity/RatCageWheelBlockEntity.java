@@ -7,36 +7,37 @@ import com.github.alexthe666.rats.server.block.RatCageBlock;
 import com.github.alexthe666.rats.server.block.RatCageWheelBlock;
 import com.github.alexthe666.rats.server.entity.rat.TamedRat;
 import com.github.alexthe666.rats.server.misc.RatUpgradeUtils;
-import com.github.alexthe666.rats.server.misc.RatsEnergyStorage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.energy.EnergyStorage;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class RatCageWheelBlockEntity extends DecoratedRatCageBlockEntity {
 
 	public int useTicks = 0;
-	public float wheelRot;
-	public float prevWheelRot;
-	private final RandomSource random = RandomSource.create();
+	public float rotationSpeed = 1.0F;
 	private TamedRat wheeler;
-	private float goalOfWheel = 0.0F;
 	private int dismountCooldown = 0;
-	public final LazyOptional<RatsEnergyStorage> energyStorage = RatsEnergyStorage.create(1000, 10, 10, 0);
+	private final EnergyStorage energyStorage;
+	private final LazyOptional<EnergyStorage> energyCap;
 
 	public RatCageWheelBlockEntity(BlockPos pos, BlockState state) {
 		super(RatsBlockEntityRegistry.RAT_CAGE_WHEEL.get(), pos, state);
+		this.energyStorage = new EnergyStorage(1000, 10, 10, 0);
+		this.energyCap = LazyOptional.of(() -> this.energyStorage);
 	}
 
 	@Override
@@ -51,9 +52,7 @@ public class RatCageWheelBlockEntity extends DecoratedRatCageBlockEntity {
 	@Override
 	public void saveAdditional(CompoundTag compound) {
 		compound.putInt("UseTicks", this.useTicks);
-		if (this.energyStorage.resolve().isPresent()) {
-			compound.putInt("StoredEnergy", this.energyStorage.resolve().get().energy);
-		}
+		compound.put("Energy", this.energyStorage.serializeNBT());
 
 		compound.putInt("DismountCooldown", this.dismountCooldown);
 		super.saveAdditional(compound);
@@ -64,100 +63,98 @@ public class RatCageWheelBlockEntity extends DecoratedRatCageBlockEntity {
 		super.load(compound);
 		this.useTicks = compound.getInt("UseTicks");
 		this.dismountCooldown = compound.getInt("DismountCooldown");
-		if (this.energyStorage.resolve().isPresent()) {
-			this.energyStorage.resolve().get().energy = compound.getInt("StoredEnergy");
+		if (compound.contains("Energy")) {
+			this.energyStorage.deserializeNBT(compound.get("Energy"));
 		}
+	}
 
+	public void removeWheeler() {
+		if (this.wheeler != null) {
+			this.wheeler.setInWheel(false);
+			this.wheeler = null;
+		}
 	}
 
 	public static void tick(Level level, BlockPos pos, BlockState state, RatCageWheelBlockEntity te) {
-		te.prevWheelRot = te.wheelRot;
-		float wheelAdd = 20.0F;
 		if (te.dismountCooldown > 0) {
 			--te.dismountCooldown;
 		}
 
-		if (te.wheeler == null && te.dismountCooldown <= 0) {
-
-			for (TamedRat rat : level.getEntitiesOfClass(TamedRat.class, new AABB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1.0D, pos.getY() + 1.0D, pos.getZ() + 1.0D))) {
-				if (rat.isTame()) {
-					te.wheeler = rat;
+		if (te.wheeler == null) {
+			te.useTicks = 0;
+			if (te.dismountCooldown <= 0) {
+				for (TamedRat rat : level.getEntitiesOfClass(TamedRat.class, new AABB(pos))) {
+					if (rat.isTame()) {
+						te.wheeler = rat;
+						te.wheeler.setInWheel(true);
+						te.rotationSpeed = RatUpgradeUtils.hasUpgrade(rat, RatsItemRegistry.RAT_UPGRADE_SPEED.get()) ? 2.0F : 1.0F;
+						break;
+					}
 				}
 			}
-		}
+		} else {
+			++te.useTicks;
+			te.sendEnergy(level, pos);
 
-		if (te.wheeler != null) {
-			double dist = te.wheeler.distanceToSqr(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F);
-			BlockState ratWheelState = level.getBlockState(te.wheeler.blockPosition());
-			Direction facing = Direction.NORTH;
-			if (state.is(RatsBlockRegistry.RAT_CAGE_WHEEL.get())) {
-				facing = state.getValue(RatCageWheelBlock.FACING);
-			}
+			if (!level.isClientSide()) {
+				Direction facing = Direction.NORTH;
+				if (state.is(RatsBlockRegistry.RAT_CAGE_WHEEL.get())) {
+					facing = state.getValue(RatCageWheelBlock.FACING);
+				}
 
-			te.wheeler.setYRot(facing.toYRot());
-			te.wheeler.yBodyRot = te.wheeler.getYRot();
-			if (te.useTicks <= 20 || !(dist > 3.0D) && ratWheelState == state) {
-				if (te.wheeler != null) {
-					te.wheeler.setPos(pos.getX() + 0.5F, pos.getY() + 0.15F, pos.getZ() + 0.5F);
-					te.wheeler.setInWheel(true);
-					++te.useTicks;
-					if (te.energyStorage.resolve().isPresent()) {
-						RatsEnergyStorage storage = te.energyStorage.resolve().get();
-						int nrg = 10;
-						if (RatUpgradeUtils.hasUpgrade(te.wheeler, RatsItemRegistry.RAT_UPGRADE_SPEED.get())) {
-							wheelAdd = 40.0F;
-							nrg = 20;
-						}
+				te.wheeler.setYRot(te.wheeler.yRotO = facing.toYRot());
+				te.wheeler.yHeadRot = te.wheeler.yHeadRotO = te.wheeler.getYRot();
+				te.wheeler.yBodyRot = te.wheeler.yBodyRotO = te.wheeler.getYRot();
 
-						if (storage.receiveEnergy(nrg, true) != 0) {
-							storage.receiveEnergy(nrg, false);
-						}
+				int nrg = Mth.ceil(10 * te.rotationSpeed);
+				if (te.energyStorage.receiveEnergy(nrg, true) != 0) {
+					te.energyStorage.receiveEnergy(nrg, false);
+				}
 
-						te.wheelRot += wheelAdd;
-						RatCageBlock cageBlock = (RatCageBlock) state.getBlock();
-						if (te.useTicks > 200 && te.useTicks % 100 == 0 && te.random.nextFloat() > 0.25F) {
-
-							for (Direction direction : Direction.values()) {
-								if (cageBlock.runConnectionLogic(level.getBlockState(pos.relative(direction))) == 1 && te.wheeler != null) {
-									te.wheeler.setPos((float) pos.relative(direction).getX() + 0.5F, (float) pos.relative(direction).getY() + 0.5F, (float) pos.relative(direction).getZ() + 0.5F);
-									te.wheeler.setInWheel(false);
-									te.wheeler = null;
-									te.dismountCooldown = 1200 + te.random.nextInt(1200);
-								}
-							}
+				if (te.useTicks > 200 && te.useTicks % 100 == 0 && level.getRandom().nextFloat() > 0.25F) {
+					for (Direction direction : Direction.values()) {
+						if (RatCageBlock.runConnectionLogic(level.getBlockState(pos.relative(direction))) == 1 && te.wheeler != null) {
+							te.wheeler.setPos((float) pos.relative(direction).getX() + 0.5F, (float) pos.relative(direction).getY() + 0.5F, (float) pos.relative(direction).getZ() + 0.5F);
+							te.removeWheeler();
+							te.dismountCooldown = 1200 + level.getRandom().nextInt(1200);
 						}
 					}
 				}
-			} else {
-				te.wheeler.setInWheel(false);
-				te.wheeler = null;
-			}
-		} else {
-			if (te.useTicks != 0) {
-				te.wheelRot %= 360.0F;
-				te.goalOfWheel = (float) Mth.floor((te.wheelRot + 90.0F) / 90.0F) * 90.0F % 360.0F;
-				te.prevWheelRot = te.wheelRot % 360.0F;
-			}
-
-			te.useTicks = 0;
-			if (Math.toRadians(te.wheelRot) % 90.0D != 0.0D && !(Math.abs(te.goalOfWheel - te.wheelRot) < 1.5F)) {
-				if (te.wheelRot > te.goalOfWheel) {
-					te.wheelRot -= Math.min(wheelAdd, te.wheelRot - te.goalOfWheel);
-				} else if (te.wheelRot < te.goalOfWheel) {
-					te.wheelRot += Math.min(wheelAdd, te.goalOfWheel - te.wheelRot);
-				}
-			} else {
-				te.goalOfWheel = 0.0F;
-				te.prevWheelRot = 0.0F;
-				te.wheelRot = 0.0F;
 			}
 		}
+	}
 
+	private void sendEnergy(Level level, BlockPos pos) {
+		AtomicInteger capacity = new AtomicInteger(this.energyStorage.getEnergyStored());
+
+		for (int i = 0; (i < Direction.values().length) && (capacity.get() > 0); i++) {
+			Direction facing = Direction.values()[i];
+			if (facing.equals(Direction.UP))
+				continue;
+
+			BlockEntity blockEntity = level.getBlockEntity(pos.relative(facing));
+			if (blockEntity == null)
+				continue;
+			blockEntity.getCapability(ForgeCapabilities.ENERGY, facing.getOpposite()).ifPresent(handler -> {
+				if (handler.canReceive()) {
+					int received = handler.receiveEnergy(Math.min(capacity.get(), 10), false);
+					capacity.addAndGet(-received);
+					this.energyStorage.extractEnergy(received, false);
+					this.setChanged();
+				}
+			});
+		}
+	}
+
+	@Override
+	public void setRemoved() {
+		super.setRemoved();
+		this.energyCap.invalidate();
 	}
 
 	@NotNull
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
-		return capability == ForgeCapabilities.ENERGY ? this.energyStorage.cast() : super.getCapability(capability, facing);
+		return capability == ForgeCapabilities.ENERGY ? this.energyCap.cast() : super.getCapability(capability, facing);
 	}
 }

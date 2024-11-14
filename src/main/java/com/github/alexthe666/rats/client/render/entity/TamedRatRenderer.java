@@ -75,7 +75,6 @@ public class TamedRatRenderer extends AbstractRatRenderer<TamedRat, AbstractRatM
 	protected void renderAdditionalInfo(TamedRat entity, PoseStack stack, MultiBufferSource source, int light) {
 		double d0 = this.entityRenderDispatcher.distanceToSqr(entity);
 		if (ForgeHooksClient.isNameplateInRenderDistance(entity, d0)) {
-			boolean flag = !entity.isDiscrete();
 			float f = entity.getNameTagOffsetY();
 			stack.pushPose();
 			stack.translate(0.0F, f, 0.0F);
