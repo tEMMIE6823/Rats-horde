@@ -40,17 +40,18 @@ public class RatPapersItem extends Item {
 			tooltip.add(Component.translatable("item.rats.rat_papers.desc1").withStyle(ChatFormatting.GRAY));
 		}
 		tooltip.add(Component.translatable("item.rats.rat_papers.desc2").withStyle(ChatFormatting.GRAY));
-		if (stack.getTag() != null) {
-			tooltip.add(Component.translatable(RatsLangConstants.RAT_PAPERS_BOUND_RAT).withStyle(ChatFormatting.GRAY));
-			String ratName = I18n.get("entity.rats.rat");
+		if (stack.getTag() != null && !stack.getTag().isEmpty()) {
+			String ratName = I18n.get("entity.rats.tamed_rat");
 			String entity = stack.getTag().getString("RatName");
+			Component rat = Component.empty();
 			if (stack.getTag().hasUUID("RatUUID")) {
 				if (entity.isEmpty()) {
-					tooltip.add(Component.literal(ratName + " (" + stack.getTag().getUUID("RatUUID") + ")").withStyle(ChatFormatting.GRAY));
+					rat = Component.literal(ratName + " (" + stack.getTag().getUUID("RatUUID") + ")").withStyle(ChatFormatting.GRAY);
 				} else {
-					tooltip.add(Component.literal(entity).withStyle(ChatFormatting.GRAY));
+					rat = Component.literal(entity).withStyle(ChatFormatting.GRAY);
 				}
 			}
+			tooltip.add(Component.translatable(RatsLangConstants.RAT_PAPERS_BOUND_RAT, rat.getString()).withStyle(ChatFormatting.GRAY));
 		}
 	}
 
