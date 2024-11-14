@@ -87,11 +87,6 @@ public class RatDragonFire extends Fireball {
 	}
 
 	@Override
-	public boolean canBeCollidedWith() {
-		return false;
-	}
-
-	@Override
 	public boolean hurt(DamageSource source, float amount) {
 		return false;
 	}

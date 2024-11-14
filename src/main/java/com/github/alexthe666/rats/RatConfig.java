@@ -37,8 +37,8 @@ public class RatConfig {
 	public static int ratCageCramming = 4;
 	public static int ratBreedingCooldown = 24000;
 	public static int ratUpdateDelay = 100;
-	public static int ratHarvestDelay = 20;
-	public static int defaultRatRadius = 8;
+	public static final int ratHarvestDelay = 20;
+	public static final int defaultRatRadius = 8;
 	public static int maxRatRadius = 16;
 	public static double garbageSpawnRate = 0.15F;
 	public static int maxRatLitterSize = 1;
@@ -73,7 +73,7 @@ public class RatConfig {
 	public static double nonbelieverHealthUpgrade = 350.0D;
 	public static double nonbelieverDamageUpgrade = 40.0D;
 	public static double nonbelieverArmorUpgrade = 20.0D;
-	public static boolean ratPsychicThrowsBlocks = false;
+	public static final boolean ratPsychicThrowsBlocks = false;
 	public static double carratDamagePerBite = 0.0D;
 
 	public static boolean blackDeathLightning = true;
@@ -123,8 +123,7 @@ public class RatConfig {
 			ratGodGlint = ConfigHolder.CLIENT.ratGodGlint.get();
 			ratAngelGlint = ConfigHolder.CLIENT.ratAngelGlint.get();
 		} catch (Exception e) {
-			RatsMod.LOGGER.warn("An exception was caused trying to load the config for Rats.");
-			e.printStackTrace();
+			RatsMod.LOGGER.warn("An exception was caused trying to load the config for Rats.", e);
 		}
 	}
 
@@ -231,8 +230,7 @@ public class RatConfig {
 			ratBaronBulletDamage = ConfigHolder.SERVER.ratBaronBulletDamage.get();
 			ratBaronShootFrequency = ConfigHolder.SERVER.ratBaronShootFrequency.get();
 		} catch (Exception e) {
-			RatsMod.LOGGER.warn("An exception was caused trying to load the config for Rats.");
-			e.printStackTrace();
+			RatsMod.LOGGER.warn("An exception was caused trying to load the config for Rats.", e);
 		}
 	}
 }

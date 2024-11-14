@@ -201,9 +201,6 @@ public class RatlanteanSpirit extends Monster implements IAnimatedEntity {
 			this.attackTimer = 0;
 		}
 
-		public void stop() {
-		}
-
 		public void tick() {
 			LivingEntity living = this.parentEntity.getTarget();
 			if (living.distanceToSqr(this.parentEntity) >= 4096.0D || !this.parentEntity.hasLineOfSight(living)) {

@@ -1,7 +1,6 @@
 package com.github.alexthe666.rats.client.render.entity;
 
 import com.github.alexthe666.rats.RatsMod;
-import com.github.alexthe666.rats.client.events.ForgeClientEvents;
 import com.github.alexthe666.rats.client.events.ModClientEvents;
 import com.github.alexthe666.rats.client.model.entity.AbstractRatModel;
 import com.github.alexthe666.rats.client.model.entity.PinkieModel;

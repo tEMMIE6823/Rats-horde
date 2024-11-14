@@ -6,7 +6,6 @@ import com.github.alexthe666.rats.server.items.upgrades.interfaces.HoldsItemUpgr
 import com.github.alexthe666.rats.server.items.upgrades.interfaces.TickRatUpgrade;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -54,7 +53,7 @@ public class SupportRatUpgradeItem extends BaseRatUpgradeItem implements TickRat
 
 					ThrownPotion potion = new ThrownPotion(rat.level(), rat);
 					potion.setItem(potionToThrow);
-					potion.setXRot(potion.getXRot() - -20.0F);
+					potion.setXRot(potion.getXRot() + 20.0F);
 					potion.shoot(d0, d1 + d3 * 0.2D, d2, 0.75F, 0.0F);
 					if (!rat.isSilent()) {
 						rat.level().playSound(null, rat.getX(), rat.getY(), rat.getZ(), SoundEvents.WITCH_THROW, rat.getSoundSource(), 1.0F, 0.8F + rat.getRandom().nextFloat() * 0.4F);

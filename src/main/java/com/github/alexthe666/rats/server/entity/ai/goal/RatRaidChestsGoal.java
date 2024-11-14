@@ -102,8 +102,7 @@ public class RatRaidChestsGoal extends RatMoveToBlockGoal {
 							return true;
 						}
 					} catch (Exception e) {
-						RatsMod.LOGGER.warn("Rats stopped a " + entity.getClass().getSimpleName() + " from causing a crash during access");
-						e.printStackTrace();
+						RatsMod.LOGGER.warn("Rats stopped a {} from causing a crash during access", entity.getClass().getSimpleName(), e);
 						return false;
 					}
 				}

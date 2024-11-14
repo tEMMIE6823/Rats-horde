@@ -1,5 +1,6 @@
 package com.github.alexthe666.rats.client.render;
 
+import com.github.alexthe666.rats.RatsMod;
 import com.github.alexthe666.rats.server.items.OreRatNuggetItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -27,7 +28,7 @@ public class NuggetColorRegister {
 				Color texColour = getAverageColour(getTextureAtlas(poopStack));
 				color = texColour.getARGB();
 			} catch (NullPointerException e) {
-				e.printStackTrace();
+				RatsMod.LOGGER.warn("Could not fetch average nugget color for resource {}, defaulting to white.", poopStack.getItem().getDescription().getString());
 			}
 			TEXTURES_TO_COLOR.put(poopName, color);
 			return color;

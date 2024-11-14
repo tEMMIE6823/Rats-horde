@@ -156,7 +156,7 @@ public abstract class BaseRatHarvestGoal extends Goal implements RatWorkGoal {
 		return TaskType.HARVEST;
 	}
 
-	protected record BlockSorter(Entity entity) implements Comparator<BlockPos> {
+	public record BlockSorter(Entity entity) implements Comparator<BlockPos> {
 
 		@Override
 		public int compare(BlockPos pos1, BlockPos pos2) {

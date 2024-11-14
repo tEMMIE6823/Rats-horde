@@ -85,7 +85,7 @@ public class RatArrow extends AbstractArrow {
 	protected void onHitEntity(EntityHitResult result) {
 		Entity entity = result.getEntity();
 		float f = (float) this.getDeltaMovement().length();
-		int i = Mth.ceil(Mth.clamp((double) f * this.getBaseDamage(), 0.0D, (double) Integer.MAX_VALUE));
+		int i = Mth.ceil(Mth.clamp((double) f * this.getBaseDamage(), 0, Integer.MAX_VALUE));
 		if (this.getPierceLevel() > 0) {
 			if (this.piercingIgnoreEntityIds == null) {
 				this.piercingIgnoreEntityIds = new IntOpenHashSet(5);

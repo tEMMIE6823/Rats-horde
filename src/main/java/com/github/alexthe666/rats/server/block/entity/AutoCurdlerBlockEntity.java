@@ -153,11 +153,6 @@ public class AutoCurdlerBlockEntity extends BaseContainerBlockEntity implements 
 	}
 
 	@Override
-	public int getMaxStackSize() {
-		return 64;
-	}
-
-	@Override
 	public boolean stillValid(Player player) {
 		if (this.getLevel() != null) {
 			if (this.getLevel().getBlockEntity(this.getBlockPos()) != this) {

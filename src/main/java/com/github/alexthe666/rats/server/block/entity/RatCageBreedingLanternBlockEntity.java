@@ -60,7 +60,7 @@ public class RatCageBreedingLanternBlockEntity extends DecoratedRatCageBlockEnti
 		if (te.breedingCooldown <= 0) {
 			double d0 = 2.0F;
 			List<TamedRat> rats = level.getEntitiesOfClass(TamedRat.class, new AABB((double) i - d0, (double) j - d0, (double) k - d0, (double) i + d0, (double) j + d0, (double) k + d0), rat -> !rat.isBaby() && (rat.isInCage() || rat.isInTube()));
-			if (rats.size() < RatConfig.ratCageCramming && rats.size() > 0) {
+			if (rats.size() < RatConfig.ratCageCramming && !rats.isEmpty()) {
 				List<TamedRat> males = new ArrayList<>();
 				List<TamedRat> females = new ArrayList<>();
 				for (TamedRat rat : rats) {
@@ -72,7 +72,7 @@ public class RatCageBreedingLanternBlockEntity extends DecoratedRatCageBlockEnti
 						}
 					}
 				}
-				if (males.size() > 0 && females.size() > 0) {
+				if (!males.isEmpty() && !females.isEmpty()) {
 					TamedRat male = males.get(0);
 					TamedRat female = females.get(0);
 					if (males.size() > 1) {

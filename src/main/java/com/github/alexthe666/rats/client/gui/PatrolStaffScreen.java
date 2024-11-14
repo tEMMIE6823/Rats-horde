@@ -67,7 +67,7 @@ public class PatrolStaffScreen extends Screen {
 			}).bounds(i - maxLength / 2, j + 60, maxLength, 20).build());
 		}
 
-		if (this.nodes.size() > 0) {
+		if (!this.nodes.isEmpty()) {
 			this.addRenderableWidget(Button.builder(removeAllText, button -> {
 				this.nodes.clear();
 				this.rat.getPatrolNodes().clear();

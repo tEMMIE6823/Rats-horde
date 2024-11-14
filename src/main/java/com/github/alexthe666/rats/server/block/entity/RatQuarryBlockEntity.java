@@ -100,33 +100,12 @@ public class RatQuarryBlockEntity extends BaseContainerBlockEntity implements Wo
 		this.setChanged();
 	}
 
-	@Override
-	public int getMaxStackSize() {
-		return 64;
-	}
-
 	public boolean stillValid(Player player) {
 		if (player.level().getBlockEntity(this.getBlockPos()) != this) {
 			return false;
 		} else {
 			return player.distanceToSqr((double) this.getBlockPos().getX() + 0.5D, (double) this.getBlockPos().getY() + 0.5D, (double) this.getBlockPos().getZ() + 0.5D) <= 64.0D;
 		}
-	}
-
-
-	@Override
-	public void startOpen(Player player) {
-
-	}
-
-	@Override
-	public void stopOpen(Player player) {
-
-	}
-
-	@Override
-	public boolean canPlaceItem(int index, ItemStack stack) {
-		return true;
 	}
 
 	@Override

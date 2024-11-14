@@ -214,7 +214,7 @@ public class NeoRatlantean extends Monster {
 						listOfAll.add(pos);
 					}
 				}
-				if (listOfAll.size() > 0) {
+				if (!listOfAll.isEmpty()) {
 					BlockPos pos = listOfAll.get(this.getRandom().nextInt(listOfAll.size()));
 					ThrownBlock thrownBlock = new ThrownBlock(RatsEntityRegistry.THROWN_BLOCK.get(), this.level(), this.level().getBlockState(pos), this);
 					thrownBlock.setPos(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D);

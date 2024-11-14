@@ -143,7 +143,7 @@ public class RatTreeUtils {
 			}
 		}
 
-		if (checkAround.size() == 0) {
+		if (checkAround.isEmpty()) {
 			return logsToBreak;
 		}
 

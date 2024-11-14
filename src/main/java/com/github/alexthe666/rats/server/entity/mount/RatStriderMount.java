@@ -31,8 +31,6 @@ import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
-import net.minecraft.world.level.pathfinder.PathFinder;
-import net.minecraft.world.level.pathfinder.WalkNodeEvaluator;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraftforge.common.ForgeMod;
 
@@ -195,12 +193,6 @@ public class RatStriderMount extends RatMountBase {
 	static class StriderPathNavigation extends GroundPathNavigation {
 		StriderPathNavigation(RatStriderMount strider, Level level) {
 			super(strider, level);
-		}
-
-		protected PathFinder createPathFinder(int maxNodes) {
-			this.nodeEvaluator = new WalkNodeEvaluator();
-			this.nodeEvaluator.setCanPassDoors(true);
-			return new PathFinder(this.nodeEvaluator, maxNodes);
 		}
 
 		protected boolean hasValidPathType(BlockPathTypes types) {

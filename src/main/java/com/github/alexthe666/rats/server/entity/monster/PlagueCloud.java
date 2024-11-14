@@ -283,9 +283,6 @@ public class PlagueCloud extends Monster {
 			this.attackTimer = 0;
 		}
 
-		public void stop() {
-		}
-
 		public void tick() {
 			LivingEntity living = this.parentEntity.getTarget();
 			if (living != null && living.distanceToSqr(this.parentEntity) >= 2.0D || !this.parentEntity.hasLineOfSight(living)) {

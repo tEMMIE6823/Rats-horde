@@ -321,16 +321,6 @@ public class PlagueDoctor extends AbstractVillager implements RangedAttackMob {
 	}
 
 	@Override
-	protected SoundEvent getTradeUpdatedSound(boolean yes) {
-		return yes ? SoundEvents.VILLAGER_YES : SoundEvents.VILLAGER_NO;
-	}
-
-	@Override
-	public SoundEvent getNotifyTradeSound() {
-		return SoundEvents.VILLAGER_YES;
-	}
-
-	@Override
 	public void performRangedAttack(LivingEntity target, float distanceFactor) {
 		double d0 = target.getY() + (double) target.getEyeHeight() - 1.1D;
 		double d1 = target.getX() + target.getDeltaMovement().x() - this.getX();

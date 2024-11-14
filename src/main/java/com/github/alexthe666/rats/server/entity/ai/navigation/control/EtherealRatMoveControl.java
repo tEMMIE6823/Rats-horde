@@ -2,7 +2,6 @@ package com.github.alexthe666.rats.server.entity.ai.navigation.control;
 
 import com.github.alexthe666.rats.server.entity.rat.AbstractRat;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.phys.Vec3;
 
 public class EtherealRatMoveControl extends RatMoveControl {

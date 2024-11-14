@@ -4,6 +4,7 @@ import com.github.alexthe666.rats.RatsMod;
 import com.github.alexthe666.rats.server.entity.rat.TamedRat;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import org.jetbrains.annotations.Nullable;
 
 public interface SelectedRat {
 
@@ -13,6 +14,7 @@ public interface SelectedRat {
 
 	void clearSelectedRat();
 
+	@Nullable
 	TamedRat getSelectedRat();
 
 	void setSelectedRat(TamedRat rat);

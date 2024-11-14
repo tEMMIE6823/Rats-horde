@@ -84,10 +84,6 @@ public class RatUpgradeContainer implements WorldlyContainer {
 	}
 
 	@Override
-	public void startOpen(Player player) {
-	}
-
-	@Override
 	public void stopOpen(Player player) {
 		this.writeToNBT(this.upgradeStack.getOrCreateTag());
 	}

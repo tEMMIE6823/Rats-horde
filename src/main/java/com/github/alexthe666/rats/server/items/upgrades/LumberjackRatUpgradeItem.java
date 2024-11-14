@@ -10,7 +10,6 @@ import com.github.alexthe666.rats.server.items.upgrades.interfaces.DamageImmunit
 import com.github.alexthe666.rats.server.items.upgrades.interfaces.HoldsItemUpgrade;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;

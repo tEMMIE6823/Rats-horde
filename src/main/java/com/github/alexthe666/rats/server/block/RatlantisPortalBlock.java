@@ -53,19 +53,16 @@ public class RatlantisPortalBlock extends BaseEntityBlock implements CustomItemR
 					if (!entity.level().isClientSide() && !pos.equals(entity.portalEntrancePos)) {
 						entity.portalEntrancePos = pos.immutable();
 					}
-					Level entityLevel = entity.level();
-					if (entityLevel != null) {
-						MinecraftServer server = entityLevel.getServer();
-						ResourceKey<Level> destination = entity.level().dimension() == RatlantisDimensionRegistry.DIMENSION_KEY ? Level.OVERWORLD : RatlantisDimensionRegistry.DIMENSION_KEY;
-						if (server != null) {
-							ServerLevel dest = server.getLevel(destination);
-							if (dest != null && server.isNetherEnabled() && !entity.isPassenger()) {
-								entity.level().getProfiler().push("ratlantis_portal");
-								entity.setPortalCooldown();
-								entity.changeDimension(dest, new RatlantisTeleporter(dest));
-								entity.setDeltaMovement(Vec3.ZERO);
-								entity.level().getProfiler().pop();
-							}
+					MinecraftServer server = entity.level().getServer();
+					ResourceKey<Level> destination = entity.level().dimension() == RatlantisDimensionRegistry.DIMENSION_KEY ? Level.OVERWORLD : RatlantisDimensionRegistry.DIMENSION_KEY;
+					if (server != null) {
+						ServerLevel dest = server.getLevel(destination);
+						if (dest != null && server.isNetherEnabled() && !entity.isPassenger()) {
+							entity.level().getProfiler().push("ratlantis_portal");
+							entity.setPortalCooldown();
+							entity.changeDimension(dest, new RatlantisTeleporter(dest));
+							entity.setDeltaMovement(Vec3.ZERO);
+							entity.level().getProfiler().pop();
 						}
 					}
 				}

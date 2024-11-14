@@ -61,7 +61,7 @@ public class RatCraftingTableBlockEntity extends BlockEntity implements MenuProv
 	private boolean hasRat;
 	public boolean hasValidRecipe;
 	private int cookTime;
-	protected StackedContents itemHelper = new StackedContents();
+	protected final StackedContents itemHelper = new StackedContents();
 	protected Optional<CraftingRecipe> guideRecipe = Optional.empty();
 	protected Optional<CraftingRecipe> recipeUsed = Optional.empty();
 	protected List<CraftingRecipe> possibleRecipes = List.of();
@@ -90,13 +90,13 @@ public class RatCraftingTableBlockEntity extends BlockEntity implements MenuProv
 	};
 
 	private final static EmptyHandler EMPTYHANDLER = new EmptyHandler();
-	public LazyOptional<IItemHandlerModifiable> bufferHandler = LazyOptional.of(() -> new TableItemHandlers.BufferHandler(this));
-	public LazyOptional<IItemHandlerModifiable> matrixHandler = LazyOptional.of(() -> new TableItemHandlers.MatrixHandler(this));
-	public LazyOptional<IItemHandlerModifiable> resultHandler = LazyOptional.of(() -> new TableItemHandlers.ResultHandler(this));
+	public final LazyOptional<IItemHandlerModifiable> bufferHandler = LazyOptional.of(() -> new TableItemHandlers.BufferHandler(this));
+	public final LazyOptional<IItemHandlerModifiable> matrixHandler = LazyOptional.of(() -> new TableItemHandlers.MatrixHandler(this));
+	public final LazyOptional<IItemHandlerModifiable> resultHandler = LazyOptional.of(() -> new TableItemHandlers.ResultHandler(this));
 
-	protected LazyOptional<IItemHandlerModifiable> combinedHandler = LazyOptional.of(() ->
+	protected final LazyOptional<IItemHandlerModifiable> combinedHandler = LazyOptional.of(() ->
 			new CombinedInvWrapper(this.matrixHandler.orElse(EMPTYHANDLER), this.bufferHandler.orElse(EMPTYHANDLER)));
-	public LazyOptional<CraftingContainer> matrixWrapper = LazyOptional.of(() ->
+	public final LazyOptional<CraftingContainer> matrixWrapper = LazyOptional.of(() ->
 			new CraftingContainerWrapper(this.matrixHandler.orElse(EMPTYHANDLER)));
 
 	public RatCraftingTableBlockEntity(BlockPos pos, BlockState state) {

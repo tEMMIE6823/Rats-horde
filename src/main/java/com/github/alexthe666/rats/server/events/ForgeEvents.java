@@ -222,7 +222,7 @@ public class ForgeEvents {
 		if (!event.getEntity().level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
 			CompoundTag playerData = event.getEntity().getPersistentData();
 			CompoundTag data = playerData.getCompound(Player.PERSISTED_NBT_TAG);
-			if (data != null && !data.getBoolean("rats_griefing_warning")) {
+			if (!data.getBoolean("rats_griefing_warning")) {
 				event.getEntity().displayClientMessage(Component.translatable(RatsLangConstants.MOB_GRIEFING_WARNING).withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC), false);
 				data.putBoolean("rats_griefing_warning", true);
 				playerData.put(Player.PERSISTED_NBT_TAG, data);

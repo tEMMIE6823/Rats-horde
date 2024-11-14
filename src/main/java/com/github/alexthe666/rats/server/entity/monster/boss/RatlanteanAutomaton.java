@@ -313,9 +313,6 @@ public class RatlanteanAutomaton extends Monster implements IAnimatedEntity, Ran
 			return LivingEntity != null && (LivingEntity.distanceTo(this.parentEntity) >= maxFollow || !this.parentEntity.hasLineOfSight(LivingEntity));
 		}
 
-		public void stop() {
-		}
-
 		public void tick() {
 			LivingEntity LivingEntity = this.parentEntity.getTarget();
 			double maxFollow = this.parentEntity.useRangedAttack ? 5 * followDist : followDist;

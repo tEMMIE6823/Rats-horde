@@ -60,9 +60,6 @@ public class RatMenu extends AbstractContainerMenu {
 		for (int i = 0; i <= 2; ++i) {
 			int finalI = i;
 			this.addSlot(new Slot(ratInventory, 3 + finalI, -2, 18 + finalI * 18) {
-				public void setChanged() {
-					this.container.setChanged();
-				}
 
 				@Override
 				public int getMaxStackSize() {

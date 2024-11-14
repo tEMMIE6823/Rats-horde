@@ -5,7 +5,6 @@ import com.github.alexthe666.rats.client.model.RatsModelLayers;
 import com.github.alexthe666.rats.client.model.deco.*;
 import com.github.alexthe666.rats.registry.RatsItemRegistry;
 import com.github.alexthe666.rats.server.block.RatCageDecoratedBlock;
-import com.github.alexthe666.rats.server.block.RatCageWheelBlock;
 import com.github.alexthe666.rats.server.block.entity.DecoratedRatCageBlockEntity;
 import com.github.alexthe666.rats.server.block.entity.RatCageBreedingLanternBlockEntity;
 import com.github.alexthe666.rats.server.block.entity.RatCageWheelBlockEntity;
@@ -21,7 +20,6 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.state.BlockState;
 
 public class DecoratedRatCageRenderer implements BlockEntityRenderer<DecoratedRatCageBlockEntity> {
 	private final RatIglooModel<?> igloo;

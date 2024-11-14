@@ -15,7 +15,7 @@ public class FleaParticle extends TextureSheetParticle {
 		this.rCol = 1.0F;
 		this.gCol = 1.0F;
 		this.bCol = 1.0F;
-		this.quadSize *= Math.random() * 0.5F + 0.2F;
+		this.quadSize *= (float) (Math.random() * 0.5F + 0.2F);
 		this.lifetime = (int) (16.0D / (Math.random() * 0.8D + 0.2D));
 	}
 

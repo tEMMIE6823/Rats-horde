@@ -171,11 +171,6 @@ public class UpgradeCombinerBlockEntity extends BaseContainerBlockEntity impleme
 	}
 
 	@Override
-	public int getMaxStackSize() {
-		return 64;
-	}
-
-	@Override
 	public boolean stillValid(Player player) {
 		return true;
 	}
