@@ -45,6 +45,7 @@ public class RatConfig {
 	public static boolean ratsSpawnWithSantaHats = false;
 	public static boolean ratsSpawnWithPartyHats = false;
 
+	public static int ratArmorMultiplier = 3;
 	public static boolean ratsChargeHeldItems = true;
 	public static int ratRFTransferBasic = 1000;
 	public static int ratChargeBasic = 10;
@@ -162,6 +163,7 @@ public class RatConfig {
 			ratsSpawnWithSantaHats = ConfigHolder.SERVER.ratsSpawnWithSantaHats.get();
 			ratsSpawnWithPartyHats = ConfigHolder.SERVER.ratsSpawnWithPartyHats.get();
 
+			ratArmorMultiplier = ConfigHolder.SERVER.ratArmorMultiplier.get();
 			ratsChargeHeldItems = ConfigHolder.SERVER.ratsChargeHeldItems.get();
 			upgradeRegenRate = ConfigHolder.SERVER.upgradeRegenRate.get();
 			ratRFTransferBasic = ConfigHolder.SERVER.ratRFTransferBasic.get();

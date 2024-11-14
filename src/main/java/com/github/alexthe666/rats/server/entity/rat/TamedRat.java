@@ -364,7 +364,7 @@ public class TamedRat extends InventoryRat {
 
 	@Override
 	public int getArmorValue() {
-		return super.getArmorValue() * 3;
+		return super.getArmorValue() * RatConfig.ratArmorMultiplier;
 	}
 
 	@Override

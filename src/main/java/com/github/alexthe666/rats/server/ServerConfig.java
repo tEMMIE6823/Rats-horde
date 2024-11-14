@@ -36,6 +36,7 @@ public class ServerConfig {
 	public final ForgeConfigSpec.BooleanValue ratsSpawnWithSantaHats;
 	public final ForgeConfigSpec.BooleanValue ratsSpawnWithPartyHats;
 
+	public final ForgeConfigSpec.IntValue ratArmorMultiplier;
 	public final ForgeConfigSpec.BooleanValue ratsChargeHeldItems;
 	public final ForgeConfigSpec.IntValue ratRFTransferBasic;
 	public final ForgeConfigSpec.IntValue ratChargeBasic;
@@ -182,6 +183,7 @@ public class ServerConfig {
 		this.ratsBreakBlockOnHarvest = buildBoolean(builder, "Rats Break Crops on Harvest", true, "True if tamed rats will destroy crops when they harvest them");
 
 		builder.pop().push("Rat Upgrades");
+		this.ratArmorMultiplier = buildInt(builder, "Rats Armor Multiplier", 3, 1, 1000, "Defines how much of a multiplier rats get when armor is put on them. For example, putting a diamond helmet on when this is set to 3 gives the rat 9 armor points.");
 		this.ratsChargeHeldItems = buildBoolean(builder, "Rats Charge Held Items", true, "If true, rats will recharge items held in their main hand when they have an energy upgrade.");
 		this.ratRFTransferBasic = buildInt(builder, "Rat RF Transfer Rate Basic", 1000, 1, Integer.MAX_VALUE, "How much RF a rat with a basic energy transfer upgrade can transport at a time.");
 		this.ratChargeBasic = buildInt(builder, "Rat Item Charge Rate Basic", 10, 1, Integer.MAX_VALUE, "How much RF per tick a rat can charge their held item with a basic energy transfer upgrade.");
