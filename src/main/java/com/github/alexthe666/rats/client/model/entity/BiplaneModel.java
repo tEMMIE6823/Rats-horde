@@ -195,6 +195,8 @@ public class BiplaneModel<T extends Mob & Plane> extends AdvancedEntityModel<T> 
 			float f7 = plane.prevPlanePitch + (plane.getPlanePitch() - plane.prevPlanePitch) * v3;
 			this.body1.rotateAngleX = (float) Math.toRadians(f7);
 		}
-		this.propeller.rotateAngleZ = v2 * 1.5F;
+		if (!t.onGround()) {
+			this.propeller.rotateAngleZ = v2 * 1.5F;
+		}
 	}
 }

@@ -14,7 +14,7 @@ public class RatRecordSoundInstance extends AbstractTickableSoundInstance {
 	private final RecordItem record;
 
 	public RatRecordSoundInstance(TamedRat rat, RecordItem record) {
-		super(record.getSound(), SoundSource.AMBIENT, RandomSource.create());
+		super(record.getSound(), SoundSource.RECORDS, RandomSource.create());
 		this.attenuation = Attenuation.LINEAR;
 		this.looping = false;
 		this.rat = rat;

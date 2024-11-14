@@ -30,7 +30,6 @@ public class RatsCreativeTabRegistry {
 	public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, RatsMod.MODID);
 
 	public static final RegistryObject<CreativeModeTab> RATS = TABS.register("rats", () -> CreativeModeTab.builder()
-			.withTabsBefore(CreativeModeTabs.SPAWN_EGGS)
 			.title(Component.translatable(RatsLangConstants.RATS_TAB))
 			.icon(() -> new ItemStack(RatsItemRegistry.CHEESE.get()))
 			.displayItems((parameters, output) -> {
@@ -158,7 +157,6 @@ public class RatsCreativeTabRegistry {
 			}).build());
 
 	public static final RegistryObject<CreativeModeTab> UPGRADES = TABS.register("rats_upgrades", () -> CreativeModeTab.builder()
-			.withTabsBefore(RATS.getKey())
 			.title(Component.translatable(RatsLangConstants.RAT_UPGRADE_TAB))
 			.icon(() -> new ItemStack(RatsItemRegistry.RAT_UPGRADE_BASIC.get()))
 			.displayItems((parameters, output) -> {
@@ -247,11 +245,9 @@ public class RatsCreativeTabRegistry {
 
 
 	public static final RegistryObject<CreativeModeTab> RATLANTIS = TABS.register("ratlantis", () -> CreativeModeTab.builder()
-			.withTabsBefore(UPGRADES.getKey())
 			.title(Component.translatable(RatsLangConstants.RATLANTIS_TAB))
 			.icon(() -> new ItemStack(RatlantisBlockRegistry.CHUNKY_CHEESE_TOKEN.get()))
 			.displayItems((parameters, output) -> {
-
 				output.accept(RatlantisBlockRegistry.CHUNKY_CHEESE_TOKEN.get());
 				output.accept(RatlantisBlockRegistry.RATGLOVE_FLOWER.get());
 				output.accept(RatlantisItemRegistry.RATGLOVE_PETALS.get());

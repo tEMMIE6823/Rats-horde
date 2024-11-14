@@ -20,8 +20,8 @@ public class BaseRatUpgradeItem extends LoreTagItem {
 	}
 
 	public Rarity getRarity(ItemStack stack) {
-		if (rarity != 0 && rarity != 4) {
-			return Rarity.values()[rarity];
+		if (this.rarity != 0 && this.rarity != 4) {
+			return Rarity.values()[this.rarity];
 		}
 		return super.getRarity(stack);
 	}

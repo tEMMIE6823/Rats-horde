@@ -50,10 +50,10 @@ public class RatBiplaneMount extends RatMountBase implements Plane {
 
 	@Override
 	protected void updateControlFlags() {
-		this.goalSelector.setControlFlag(Goal.Flag.MOVE, true);
+		this.goalSelector.setControlFlag(Goal.Flag.MOVE, false);
 		this.goalSelector.setControlFlag(Goal.Flag.JUMP, true);
 		this.goalSelector.setControlFlag(Goal.Flag.LOOK, true);
-		this.goalSelector.setControlFlag(Goal.Flag.TARGET, false);
+		this.goalSelector.setControlFlag(Goal.Flag.TARGET, true);
 	}
 
 	@Override
@@ -102,34 +102,33 @@ public class RatBiplaneMount extends RatMountBase implements Plane {
 	public static AttributeSupplier.Builder createAttributes() {
 		return Mob.createMobAttributes()
 				.add(Attributes.MAX_HEALTH, 300.0D)
-				.add(Attributes.MOVEMENT_SPEED, 0.35D)
+				.add(Attributes.MOVEMENT_SPEED, 0.25D)
 				.add(Attributes.ATTACK_DAMAGE, 1.0D)
 				.add(Attributes.FOLLOW_RANGE, 32.0D);
 	}
 
 	public void tick() {
 		super.tick();
-		if (this.soundLoopCounter == 0) {
-			this.playSound(RatsSoundRegistry.BIPLANE_LOOP.get(), 10, 1);
-		}
-		this.soundLoopCounter++;
-		if (this.soundLoopCounter > 90) {
+		if (!this.onGround()) {
+			if (this.soundLoopCounter == 0) {
+				this.playSound(RatsSoundRegistry.BIPLANE_LOOP.get(), 10, 1);
+			}
+			this.soundLoopCounter++;
+			if (this.soundLoopCounter > 90) {
+				this.soundLoopCounter = 0;
+			}
+		} else {
 			this.soundLoopCounter = 0;
 		}
 
 		this.prevPlanePitch = this.getPlanePitch();
 		if (!this.isVehicle() && !this.level().isClientSide()) {
-			this.hurt(this.damageSources().drown(), 1000);
+			this.discard();
 		}
 		if (!this.onGround() && this.getDeltaMovement().y < 0.0D) {
 			this.setDeltaMovement(this.getDeltaMovement().multiply(1.0D, 0.6D, 1.0D));
 		}
 		TamedRat rat = this.getRat();
-		double up = 0.08D;
-		if (rat != null && !rat.canMove()) {
-			up = 0;
-		}
-		this.setDeltaMovement(this.getDeltaMovement().x(), this.getDeltaMovement().y() + up, this.getDeltaMovement().z());
 
 		if (this.getTarget() != null && this.hasLineOfSight(this.getTarget())) {
 			Entity target = this.getTarget();

@@ -104,10 +104,10 @@ public abstract class RatMountBase extends PathfinderMob implements RatMount, Ad
 			double extraY = this.getY() + this.getPassengersRidingOffset() + passenger.getMyRidingOffset();
 			callback.accept(passenger, this.getX() + extraX, extraY, this.getZ() + extraZ);
 			if (passenger instanceof LivingEntity living) {
-				living.yBodyRot = this.getYRot();
-				living.setYHeadRot(this.getYRot());
-				living.setXRot(this.getXRot());
-				living.setYRot(this.getYRot());
+				living.yBodyRot = living.yBodyRotO = this.getYRot();
+				living.setYHeadRot(living.yHeadRotO = this.getYRot());
+				living.setXRot(living.xRotO = this.getXRot());
+				living.setYRot(living.yRotO = this.getYRot());
 			}
 		}
 	}
