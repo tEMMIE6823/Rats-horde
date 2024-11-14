@@ -9,6 +9,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -36,14 +37,14 @@ public class CarratRatUpgradeItem extends BaseRatUpgradeItem implements ChangesT
 	}
 
 	@Override
-	public void renderHeldItem(TamedRat rat, RatModel<?> model, PoseStack stack, MultiBufferSource buffer, int light, float ageInTicks) {
+	public void renderHeldItem(EntityRendererProvider.Context context, TamedRat rat, RatModel<?> model, PoseStack stack, MultiBufferSource buffer, int light, float ageInTicks) {
 		stack.pushPose();
 		model.body1.translateRotate(stack);
 		stack.pushPose();
 		stack.translate(0F, -0.05F, 0.5F);
 		stack.mulPose(Axis.XP.rotationDegrees(90.0F));
 		stack.scale(2, 2, 2);
-		Minecraft.getInstance().getItemRenderer().renderStatic(new ItemStack(Blocks.FERN), ItemDisplayContext.GROUND, light, OverlayTexture.NO_OVERLAY, stack, buffer, null, rat.getId());
+		context.getItemRenderer().renderStatic(new ItemStack(Blocks.FERN), ItemDisplayContext.GROUND, light, OverlayTexture.NO_OVERLAY, stack, buffer, null, rat.getId());
 		stack.popPose();
 		stack.popPose();
 	}

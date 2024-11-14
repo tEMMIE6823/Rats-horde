@@ -8,6 +8,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
@@ -26,13 +27,13 @@ public class TNTRatUpgradeItem extends BaseRatUpgradeItem implements PostAttackU
 	}
 
 	@Override
-	public void renderHeldItem(TamedRat rat, RatModel<?> model, PoseStack stack, MultiBufferSource buffer, int light, float ageInTicks) {
+	public void renderHeldItem(EntityRendererProvider.Context context, TamedRat rat, RatModel<?> model, PoseStack stack, MultiBufferSource buffer, int light, float ageInTicks) {
 		model.body1.translateRotate(stack);
 		stack.pushPose();
 		stack.translate(0F, 0.1F, 0.1F);
 		stack.mulPose(Axis.XP.rotationDegrees(180.0F));
 		stack.scale(2, 2, 2);
-		Minecraft.getInstance().getItemRenderer().renderStatic(new ItemStack(Items.TNT), ItemDisplayContext.GROUND, light, OverlayTexture.NO_OVERLAY, stack, buffer, null, rat.getId());
+		context.getItemRenderer().renderStatic(new ItemStack(Items.TNT), ItemDisplayContext.GROUND, light, OverlayTexture.NO_OVERLAY, stack, buffer, null, rat.getId());
 		stack.popPose();
 	}
 

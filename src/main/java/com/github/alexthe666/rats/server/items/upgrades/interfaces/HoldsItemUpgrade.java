@@ -5,12 +5,14 @@ import com.github.alexthe666.rats.server.entity.rat.TamedRat;
 import com.github.alexthe666.rats.server.items.upgrades.BaseFlightRatUpgradeItem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 
 public interface HoldsItemUpgrade {
 	/**
 	 * Allows the rat with this upgrade to render an item in its hand/on its body. <br>
 	 * If you're rendering an item as a decorative part on a rat instead of a held item (such as wings) make sure you set isFakeHandRenderer to true. You may run into some rendering issues otherwise.
 	 *
+	 * @param context    the entity renderer context. Allows you to utilize things like the block and item renderers safely.
 	 * @param rat        the rat that is currently has this upgrade
 	 * @param model      the rat's model, allows you to move the item to a specific body part if needed
 	 * @param stack      the renderer's PoseStack. Allows you to move, scale, and rotate the item as needed.
@@ -18,7 +20,7 @@ public interface HoldsItemUpgrade {
 	 * @param light      the brightness the item should render at
 	 * @param ageInTicks the rat's current age, in ticks. You can use this to move your item on a timer. To see this used in action, check out {@link BaseFlightRatUpgradeItem}
 	 */
-	void renderHeldItem(TamedRat rat, RatModel<?> model, PoseStack stack, MultiBufferSource buffer, int light, float ageInTicks);
+	void renderHeldItem(EntityRendererProvider.Context context, TamedRat rat, RatModel<?> model, PoseStack stack, MultiBufferSource buffer, int light, float ageInTicks);
 
 	/**
 	 * a helper method that moves the item to render on the rat's hand.

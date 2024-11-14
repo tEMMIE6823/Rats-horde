@@ -3,6 +3,7 @@ package com.github.alexthe666.rats.client.util;
 import com.github.alexthe666.rats.registry.RatsItemRegistry;
 import com.github.alexthe666.rats.server.entity.rat.TamedRat;
 import com.github.alexthe666.rats.server.misc.RatUpgradeUtils;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
@@ -29,7 +30,7 @@ public class RatRecordSoundInstance extends AbstractTickableSoundInstance {
 			this.z = this.rat.getZ();
 			this.volume = 5.0F;
 		} else {
-			this.stop();
+			Minecraft.getInstance().getSoundManager().stop(this);
 		}
 	}
 }

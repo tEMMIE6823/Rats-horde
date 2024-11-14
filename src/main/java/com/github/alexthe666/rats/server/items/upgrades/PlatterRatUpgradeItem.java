@@ -7,6 +7,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
@@ -24,7 +25,7 @@ public class PlatterRatUpgradeItem extends BaseRatUpgradeItem implements HoldsIt
 	}
 
 	@Override
-	public void renderHeldItem(TamedRat rat, RatModel<?> model, PoseStack stack, MultiBufferSource buffer, int light, float ageInTicks) {
+	public void renderHeldItem(EntityRendererProvider.Context context, TamedRat rat, RatModel<?> model, PoseStack stack, MultiBufferSource buffer, int light, float ageInTicks) {
 		if (model.young) {
 			stack.translate(0.0F, 0.625F, 0.0F);
 			stack.mulPose(Axis.XP.rotationDegrees(20));
@@ -37,6 +38,6 @@ public class PlatterRatUpgradeItem extends BaseRatUpgradeItem implements HoldsIt
 
 		stack.translate(-0.155F, -0.225F, 0.2F);
 		stack.scale(2F, 2F, 2F);
-		Minecraft.getInstance().getItemRenderer().renderStatic(new ItemStack(Blocks.HEAVY_WEIGHTED_PRESSURE_PLATE), ItemDisplayContext.GROUND, light, OverlayTexture.NO_OVERLAY, stack, buffer, null, rat.getId());
+		context.getItemRenderer().renderStatic(new ItemStack(Blocks.HEAVY_WEIGHTED_PRESSURE_PLATE), ItemDisplayContext.GROUND, light, OverlayTexture.NO_OVERLAY, stack, buffer, null, rat.getId());
 	}
 }

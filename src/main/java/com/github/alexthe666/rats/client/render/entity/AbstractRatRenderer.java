@@ -31,13 +31,13 @@ public abstract class AbstractRatRenderer<T extends AbstractRat, M extends Abstr
 	public AbstractRatRenderer(EntityRendererProvider.Context context, M model) {
 		super(context, model, 0.15F);
 		this.addLayer(new RatHelmetLayer<>(this, new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR))));
-		this.addLayer(new RatHeldItemLayer<>(this));
+		this.addLayer(new RatHeldItemLayer<>(this, context));
 		this.addLayer(new PartyHatLayer<>(this, new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR))));
 	}
 
 	@Override
 	public boolean shouldRender(T rat, Frustum camera, double camX, double camY, double camZ) {
-		if (rat.isPassenger() && rat.getVehicle() != null && rat.getVehicle().getPassengers().size() >= 1 && rat.getVehicle().getPassengers().get(0) == rat && rat.getVehicle() instanceof LivingEntity living) {
+		if (rat.isPassenger() && rat.getVehicle() != null && !rat.getVehicle().getPassengers().isEmpty() && rat.getVehicle().getPassengers().get(0) == rat && rat.getVehicle() instanceof LivingEntity living) {
 			if (living.getItemBySlot(EquipmentSlot.HEAD).is(RatsItemRegistry.CHEF_TOQUE.get())) {
 				return false;
 			}
@@ -48,7 +48,7 @@ public abstract class AbstractRatRenderer<T extends AbstractRat, M extends Abstr
 	@Override
 	protected void scale(T rat, PoseStack stack, float partialTicks) {
 		stack.scale(0.6F, 0.6F, 0.6F);
-		if (rat.isPassenger() && rat.getVehicle() != null && rat.getVehicle().getPassengers().size() >= 1) {
+		if (rat.isPassenger() && rat.getVehicle() != null && !rat.getVehicle().getPassengers().isEmpty()) {
 			if (rat.getVehicle() != null) {
 				if (rat.getVehicle() instanceof Player player) {
 					Entity riding = rat.getVehicle();

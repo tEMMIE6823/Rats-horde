@@ -13,6 +13,7 @@ import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -24,9 +25,11 @@ import net.minecraft.world.item.ItemStack;
 public class RatHeldItemLayer<T extends AbstractRat, M extends AbstractRatModel<T>> extends RenderLayer<T, M> {
 
 	public static final ChristmasChestModel CHRISTMAS_CHEST_MODEL = new ChristmasChestModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModelLayers.CHEST));
+	private final EntityRendererProvider.Context context;
 
-	public RatHeldItemLayer(RenderLayerParent<T, M> parent) {
+	public RatHeldItemLayer(RenderLayerParent<T, M> parent, EntityRendererProvider.Context context) {
 		super(parent);
+		this.context = context;
 	}
 
 	@Override
@@ -118,7 +121,7 @@ public class RatHeldItemLayer<T extends AbstractRat, M extends AbstractRatModel<
 					RatUpgradeUtils.forEachUpgrade(rat, item -> item instanceof HoldsItemUpgrade, (stack1, slot) -> {
 						if (rat.isSlotVisible(slot)) {
 							stack.pushPose();
-							((HoldsItemUpgrade) stack1.getItem()).renderHeldItem(rat, model, stack, buffer, light, ageInTicks);
+							((HoldsItemUpgrade) stack1.getItem()).renderHeldItem(this.context, rat, model, stack, buffer, light, ageInTicks);
 							stack.popPose();
 						}
 					});

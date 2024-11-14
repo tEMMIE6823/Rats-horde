@@ -8,6 +8,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
@@ -34,8 +35,7 @@ public abstract class BaseFlightRatUpgradeItem extends BaseRatUpgradeItem implem
 	}
 
 	@Override
-	public void renderHeldItem(TamedRat rat, RatModel<?> model, PoseStack stack, MultiBufferSource buffer, int light, float ageInTicks) {
-		Minecraft minecraft = Minecraft.getInstance();
+	public void renderHeldItem(EntityRendererProvider.Context context, TamedRat rat, RatModel<?> model, PoseStack stack, MultiBufferSource buffer, int light, float ageInTicks) {
 		float wingAngle = !rat.isFlying() ? 0 : Mth.sin(ageInTicks) * 30;
 		float wingFold = !rat.isFlying() ? -45 : 0;
 		model.body1.translateRotate(stack);
@@ -47,7 +47,7 @@ public abstract class BaseFlightRatUpgradeItem extends BaseRatUpgradeItem implem
 		stack.translate(0.55F, 0, 0.2F);
 		stack.mulPose(Axis.XN.rotationDegrees(90));
 		stack.scale(2, 2, 1);
-		minecraft.getItemRenderer().renderStatic(this.getWing(), ItemDisplayContext.GROUND, light, OverlayTexture.NO_OVERLAY, stack, buffer, null, rat.getId());
+		context.getItemRenderer().renderStatic(this.getWing(), ItemDisplayContext.GROUND, light, OverlayTexture.NO_OVERLAY, stack, buffer, null, rat.getId());
 		stack.popPose();
 		stack.pushPose();
 		stack.translate(0F, -0.1F, 0F);
@@ -57,7 +57,7 @@ public abstract class BaseFlightRatUpgradeItem extends BaseRatUpgradeItem implem
 		stack.mulPose(Axis.XN.rotationDegrees(90));
 		stack.mulPose(Axis.YP.rotationDegrees(180));
 		stack.scale(2, 2, 1);
-		minecraft.getItemRenderer().renderStatic(this.getWing(), ItemDisplayContext.GROUND, light, OverlayTexture.NO_OVERLAY, stack, buffer, null, rat.getId());
+		context.getItemRenderer().renderStatic(this.getWing(), ItemDisplayContext.GROUND, light, OverlayTexture.NO_OVERLAY, stack, buffer, null, rat.getId());
 		stack.popPose();
 	}
 

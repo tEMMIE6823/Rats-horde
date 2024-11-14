@@ -9,6 +9,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -33,13 +34,13 @@ public class FishermanRatUpgradeItem extends BaseRatUpgradeItem implements Chang
 	}
 
 	@Override
-	public void renderHeldItem(TamedRat rat, RatModel<?> model, PoseStack stack, MultiBufferSource buffer, int light, float ageInTicks) {
+	public void renderHeldItem(EntityRendererProvider.Context context, TamedRat rat, RatModel<?> model, PoseStack stack, MultiBufferSource buffer, int light, float ageInTicks) {
 		stack.pushPose();
 		this.translateToHand(model, false, stack);
 		stack.mulPose(Axis.ZP.rotationDegrees(180F));
 		stack.translate(0.0F, 0.0F, -0.1F);
 		stack.scale(0.65F, 0.65F, 0.65F);
-		Minecraft.getInstance().getItemRenderer().renderStatic(new ItemStack(Items.FISHING_ROD), ItemDisplayContext.THIRD_PERSON_RIGHT_HAND, light, OverlayTexture.NO_OVERLAY, stack, buffer, null, rat.getId());
+		context.getItemRenderer().renderStatic(new ItemStack(Items.FISHING_ROD), ItemDisplayContext.THIRD_PERSON_RIGHT_HAND, light, OverlayTexture.NO_OVERLAY, stack, buffer, null, rat.getId());
 		stack.popPose();
 	}
 }

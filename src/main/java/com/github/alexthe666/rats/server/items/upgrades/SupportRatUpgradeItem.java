@@ -8,6 +8,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EntitySelector;
@@ -66,7 +67,7 @@ public class SupportRatUpgradeItem extends BaseRatUpgradeItem implements TickRat
 	}
 
 	@Override
-	public void renderHeldItem(TamedRat rat, RatModel<?> model, PoseStack stack, MultiBufferSource buffer, int light, float ageInTicks) {
+	public void renderHeldItem(EntityRendererProvider.Context context, TamedRat rat, RatModel<?> model, PoseStack stack, MultiBufferSource buffer, int light, float ageInTicks) {
 		model.translateToBody(stack);
 		stack.pushPose();
 		stack.scale(0.5F, 0.5F, 0.5F);
@@ -74,9 +75,9 @@ public class SupportRatUpgradeItem extends BaseRatUpgradeItem implements TickRat
 		stack.mulPose(Axis.YP.rotationDegrees(90));
 		stack.mulPose(Axis.ZP.rotationDegrees(-90));
 		stack.translate(0.0F, -0.1F, 0.275F);
-		Minecraft.getInstance().getItemRenderer().renderStatic(PotionUtils.setPotion(new ItemStack(Items.SPLASH_POTION), Potions.HEALING), ItemDisplayContext.THIRD_PERSON_RIGHT_HAND, light, OverlayTexture.NO_OVERLAY, stack, buffer, rat.level(), rat.getId());
+		context.getItemRenderer().renderStatic(PotionUtils.setPotion(new ItemStack(Items.SPLASH_POTION), Potions.HEALING), ItemDisplayContext.THIRD_PERSON_RIGHT_HAND, light, OverlayTexture.NO_OVERLAY, stack, buffer, rat.level(), rat.getId());
 		stack.translate(0.35F, 0.1F, 0.0F);
-		Minecraft.getInstance().getItemRenderer().renderStatic(PotionUtils.setPotion(new ItemStack(Items.SPLASH_POTION), Potions.SLOW_FALLING), ItemDisplayContext.THIRD_PERSON_RIGHT_HAND, light, OverlayTexture.NO_OVERLAY, stack, buffer, rat.level(), rat.getId());
+		context.getItemRenderer().renderStatic(PotionUtils.setPotion(new ItemStack(Items.SPLASH_POTION), Potions.SLOW_FALLING), ItemDisplayContext.THIRD_PERSON_RIGHT_HAND, light, OverlayTexture.NO_OVERLAY, stack, buffer, rat.level(), rat.getId());
 		stack.popPose();
 		stack.pushPose();
 		stack.scale(0.5F, 0.5F, 0.5F);
@@ -84,9 +85,9 @@ public class SupportRatUpgradeItem extends BaseRatUpgradeItem implements TickRat
 		stack.mulPose(Axis.YP.rotationDegrees(90));
 		stack.mulPose(Axis.ZP.rotationDegrees(-90));
 		stack.translate(0.0F, -0.1F, -0.4F);
-		Minecraft.getInstance().getItemRenderer().renderStatic(PotionUtils.setPotion(new ItemStack(Items.SPLASH_POTION), Potions.SWIFTNESS), ItemDisplayContext.THIRD_PERSON_RIGHT_HAND, light, OverlayTexture.NO_OVERLAY, stack, buffer, rat.level(), rat.getId());
+		context.getItemRenderer().renderStatic(PotionUtils.setPotion(new ItemStack(Items.SPLASH_POTION), Potions.SWIFTNESS), ItemDisplayContext.THIRD_PERSON_RIGHT_HAND, light, OverlayTexture.NO_OVERLAY, stack, buffer, rat.level(), rat.getId());
 		stack.translate(0.35F, 0.1F, 0.0F);
-		Minecraft.getInstance().getItemRenderer().renderStatic(PotionUtils.setPotion(new ItemStack(Items.SPLASH_POTION), Potions.LUCK), ItemDisplayContext.THIRD_PERSON_RIGHT_HAND, light, OverlayTexture.NO_OVERLAY, stack, buffer, rat.level(), rat.getId());
+		context.getItemRenderer().renderStatic(PotionUtils.setPotion(new ItemStack(Items.SPLASH_POTION), Potions.LUCK), ItemDisplayContext.THIRD_PERSON_RIGHT_HAND, light, OverlayTexture.NO_OVERLAY, stack, buffer, rat.level(), rat.getId());
 		stack.popPose();
 	}
 
