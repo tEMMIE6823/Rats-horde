@@ -31,7 +31,7 @@ description = '''What are we going to do today Pinky?'''
 [[dependencies.rats]]
     modId = "minecraft"
     mandatory = true
-    versionRange = "[1.20.1,)"
+    versionRange = "[1.20.1]"
     ordering = "NONE"
     side = "BOTH"
 
