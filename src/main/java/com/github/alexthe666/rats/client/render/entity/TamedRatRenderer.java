@@ -7,17 +7,25 @@ import com.github.alexthe666.rats.client.model.entity.PinkieModel;
 import com.github.alexthe666.rats.client.model.entity.RatModel;
 import com.github.alexthe666.rats.client.render.entity.layer.TamedRatEyesLayer;
 import com.github.alexthe666.rats.client.render.entity.layer.TamedRatOverlayLayer;
+import com.github.alexthe666.rats.registry.RatsItemRegistry;
 import com.github.alexthe666.rats.server.entity.rat.TamedRat;
 import com.github.alexthe666.rats.server.items.upgrades.interfaces.ChangesTextureUpgrade;
 import com.github.alexthe666.rats.server.misc.RatUpgradeUtils;
 import com.google.common.collect.ImmutableMap;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
+import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.client.ForgeHooksClient;
 import org.joml.Matrix4f;
 
@@ -30,8 +38,10 @@ public class TamedRatRenderer extends AbstractRatRenderer<TamedRat, AbstractRatM
 	private static final RatModel<TamedRat> RAT_MODEL = new RatModel<>();
 	private static final PinkieModel<TamedRat> PINKIE_MODEL = new PinkieModel<>();
 	private static final ResourceLocation PINKIE_TEXTURE = new ResourceLocation(RatsMod.MODID, "textures/entity/rat/baby.png");
+	private static final String[] FISHING_PROGRESS = new String[] {".", "..", "..."};
 
 	private static final ImmutableMap<String, ResourceLocation> SPECIAL_SKINS = ImmutableMap.<String, ResourceLocation>builder()
+		.put("brick", new ResourceLocation(RatsMod.MODID, "textures/entity/rat/patreon_skins/brick.png"))
 		.put("bugraak", new ResourceLocation(RatsMod.MODID, "textures/entity/rat/patreon_skins/bugraak.png"))
 		.put("dino", new ResourceLocation(RatsMod.MODID, "textures/entity/rat/patreon_skins/dino.png"))
 		.put("friar", new ResourceLocation(RatsMod.MODID, "textures/entity/rat/patreon_skins/friar.png"))
@@ -67,6 +77,25 @@ public class TamedRatRenderer extends AbstractRatRenderer<TamedRat, AbstractRatM
 			this.model = RAT_MODEL;
 		}
 		super.render(entity, entityYaw, partialTicks, stack, buffer, light);
+		if (ModClientEvents.shouldRenderNameplates() && entity.crafting && RatUpgradeUtils.hasUpgrade(entity, RatsItemRegistry.RAT_UPGRADE_FISHERMAN.get())) {
+			boolean hasName = this.shouldShowName(entity);
+			stack.pushPose();
+			stack.translate(0.0F, hasName ? 1.3F : 1.05F, 0.0F);
+			stack.mulPose(this.entityRenderDispatcher.cameraOrientation());
+			stack.scale(0.25F, 0.25F, 0.25F);
+			stack.mulPose(Axis.YP.rotationDegrees(180));
+			stack.mulPose(Axis.ZP.rotationDegrees(Mth.sin((entity.tickCount + partialTicks) / 5) * 20));
+			Minecraft.getInstance().getItemRenderer().renderStatic(new ItemStack(Items.FISHING_ROD), ItemDisplayContext.GUI, light, OverlayTexture.NO_OVERLAY, stack, buffer, null, entity.getId());
+			stack.popPose();
+
+			stack.pushPose();
+			stack.translate(0.0F, entity.getBbHeight() + 0.5F, 0.0F);
+			stack.mulPose(this.entityRenderDispatcher.cameraOrientation());
+			stack.scale(-0.025F, -0.025F, 0.025F);
+			String dots = FISHING_PROGRESS[(int)(Util.getMillis() / 300L % (long)FISHING_PROGRESS.length)];
+			this.getFont().drawInBatch(dots, -this.getFont().width(dots) / 2, hasName ? -10 : 0, 0xFFFFFF, false, stack.last().pose(), buffer, Font.DisplayMode.NORMAL, 0, 15728880, this.getFont().isBidirectional());
+			stack.popPose();
+		}
 //		if (ForgeClientEvents.isRatSelectedOnStaff(entity)) {
 //			this.renderAdditionalInfo(entity, stack, buffer, light);
 //		}

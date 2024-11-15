@@ -31,7 +31,7 @@ public class RatFishermanGoal extends BaseRatHarvestGoal {
 	private final TamedRat rat;
 	private boolean hasReachedWater = false;
 	private boolean playedThrownSound = false;
-	private int fishingCooldown = 70;
+	private int fishingCooldown = 750;
 
 	public RatFishermanGoal(TamedRat rat) {
 		super(rat);
@@ -60,7 +60,7 @@ public class RatFishermanGoal extends BaseRatHarvestGoal {
 		this.rat.crafting = false;
 		this.rat.level().broadcastEntityEvent(this.rat, (byte) 86);
 		this.hasReachedWater = false;
-		this.fishingCooldown = 70 + this.rat.getRandom().nextInt(20);
+		this.fishingCooldown = 750 + this.rat.getRandom().nextInt(250);
 	}
 
 	@Override
