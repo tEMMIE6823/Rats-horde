@@ -32,20 +32,21 @@ public class TamedRatRenderer extends AbstractRatRenderer<TamedRat, AbstractRatM
 	private static final ResourceLocation PINKIE_TEXTURE = new ResourceLocation(RatsMod.MODID, "textures/entity/rat/baby.png");
 
 	private static final ImmutableMap<String, ResourceLocation> SPECIAL_SKINS = ImmutableMap.<String, ResourceLocation>builder()
-			.put("bugraak", new ResourceLocation(RatsMod.MODID, "textures/entity/rat/patreon_skins/bugraak.png"))
-			.put("dino", new ResourceLocation(RatsMod.MODID, "textures/entity/rat/patreon_skins/dino.png"))
-			.put("friar", new ResourceLocation(RatsMod.MODID, "textures/entity/rat/patreon_skins/friar.png"))
-			.put("gizmo", new ResourceLocation(RatsMod.MODID, "textures/entity/rat/patreon_skins/gizmo.png"))
-			.put("julian", new ResourceLocation(RatsMod.MODID, "textures/entity/rat/patreon_skins/julian.png"))
-			.put("lil_cheese", new ResourceLocation(RatsMod.MODID, "textures/entity/rat/patreon_skins/lil_cheese.png"))
-			.put("ratatla", new ResourceLocation(RatsMod.MODID, "textures/entity/rat/patreon_skins/ratatla.png"))
-			.put("riddler", new ResourceLocation(RatsMod.MODID, "textures/entity/rat/patreon_skins/riddler.png"))
-			.put("sharva", new ResourceLocation(RatsMod.MODID, "textures/entity/rat/patreon_skins/sharva.png"))
-			.put("shizuka", new ResourceLocation(RatsMod.MODID, "textures/entity/rat/patreon_skins/shizuka.png"))
-			.put("skrat", new ResourceLocation(RatsMod.MODID, "textures/entity/rat/patreon_skins/skrat.png"))
-			.put("ultrakill", new ResourceLocation(RatsMod.MODID, "textures/entity/rat/patreon_skins/ultrakill.png"))
-			.put("zura", new ResourceLocation(RatsMod.MODID, "textures/entity/rat/patreon_skins/zura.png"))
-			.build();
+		.put("bugraak", new ResourceLocation(RatsMod.MODID, "textures/entity/rat/patreon_skins/bugraak.png"))
+		.put("dino", new ResourceLocation(RatsMod.MODID, "textures/entity/rat/patreon_skins/dino.png"))
+		.put("friar", new ResourceLocation(RatsMod.MODID, "textures/entity/rat/patreon_skins/friar.png"))
+		.put("gizmo", new ResourceLocation(RatsMod.MODID, "textures/entity/rat/patreon_skins/gizmo.png"))
+		.put("julian", new ResourceLocation(RatsMod.MODID, "textures/entity/rat/patreon_skins/julian.png"))
+		.put("lil_cheese", new ResourceLocation(RatsMod.MODID, "textures/entity/rat/patreon_skins/lil_cheese.png"))
+		.put("ratatla", new ResourceLocation(RatsMod.MODID, "textures/entity/rat/patreon_skins/ratatla.png"))
+		.put("riddler", new ResourceLocation(RatsMod.MODID, "textures/entity/rat/patreon_skins/riddler.png"))
+		.put("sharva", new ResourceLocation(RatsMod.MODID, "textures/entity/rat/patreon_skins/sharva.png"))
+		.put("shizuka", new ResourceLocation(RatsMod.MODID, "textures/entity/rat/patreon_skins/shizuka.png"))
+		.put("skrat", new ResourceLocation(RatsMod.MODID, "textures/entity/rat/patreon_skins/skrat.png"))
+		.put("splinter", new ResourceLocation(RatsMod.MODID, "textures/entity/rat/patreon_skins/splinter.png"))
+		.put("ultrakill", new ResourceLocation(RatsMod.MODID, "textures/entity/rat/patreon_skins/ultrakill.png"))
+		.put("zura", new ResourceLocation(RatsMod.MODID, "textures/entity/rat/patreon_skins/zura.png"))
+		.build();
 
 	public TamedRatRenderer(EntityRendererProvider.Context context) {
 		super(context, new RatModel<>());
@@ -81,17 +82,17 @@ public class TamedRatRenderer extends AbstractRatRenderer<TamedRat, AbstractRatM
 			stack.scale(-0.025F, -0.025F, 0.025F);
 			Matrix4f matrix4f = stack.last().pose();
 			float f1 = Minecraft.getInstance().options.getBackgroundOpacity(0.25F);
-			int j = (int)(f1 * 255.0F) << 24;
+			int j = (int) (f1 * 255.0F) << 24;
 			Font font = this.getFont();
 
 			Component rf = Component.literal("RF: " + entity.getHeldRF());
-			float f2 = (float)(-font.width(rf) / 2);
+			float f2 = (float) (-font.width(rf) / 2);
 			font.drawInBatch(rf, f2, -20, 553648127, false, matrix4f, source, Font.DisplayMode.NORMAL, j, light);
 			Component fluid = Component.literal("Fluid: " + entity.transportingFluid.getAmount());
-			f2 = (float)(-font.width(rf) / 2);
+			f2 = (float) (-font.width(rf) / 2);
 			font.drawInBatch(fluid, f2, -10, 553648127, false, matrix4f, source, Font.DisplayMode.NORMAL, j, light);
 			Component pickupSides = Component.literal("Deposit: " + entity.depositFacing.getName() + ", Pickup: " + entity.pickupFacing.getName());
-			f2 = (float)(-font.width(rf) / 2);
+			f2 = (float) (-font.width(rf) / 2);
 			font.drawInBatch(pickupSides, f2, 0, 553648127, false, matrix4f, source, Font.DisplayMode.NORMAL, j, light);
 
 			stack.popPose();
